@@ -7,7 +7,7 @@
 #include "soundbank.h"
 #include "soundbank_bin.h"
 
-int main() {
+int tankController() {
 
 	irqInit();
 
