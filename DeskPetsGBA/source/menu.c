@@ -18,6 +18,10 @@ bool isColorAvailable(int dpModel);
 void getColorsForModel(int dpModel);
 char *getColorText(int dpModel);
 bool isChannelAvailable(int dpModel);
+void menuUp();
+void menuDown();
+void menuLeft();
+void menuRight();
 
 int deskpetModel = 0;
 int deskpetColor = 0;
@@ -27,9 +31,9 @@ int controlVariant = 0;
 int flipSignals = 0;
 
 const int consoleLength = 30;
-
-int availableMenuEntries[6];
-int currentMenuEntry;
+ 
+int currentMenuIndex = 0;
+int currentMenuEntry = 0;
 
 enum MENU_ENTRIES
 {
@@ -60,8 +64,6 @@ int main()
 
 	SetMode(MODE_0 | BG0_ON);
 	
-	//iprintf("\x1b[3;0HUwU *nuzzles your entry point*");
-	
 	int keys_pressed, keys_released;
 	bool updateMenu = false;
 	
@@ -73,16 +75,30 @@ int main()
 		keys_pressed = keysDown();
 		keys_released = keysUp();
 		
+		if (keys_pressed & KEY_DOWN)
+		{
+			menuDown();
+			
+			updateMenu = true;
+		}
+		
+		if (keys_pressed & KEY_UP)
+		{
+			menuUp();
+			
+			updateMenu = true;
+		}
+		
 		if (keys_pressed & KEY_LEFT)
 		{
-			deskpetModel = deskpetModel - 1;
+			menuLeft();
 			
 			updateMenu = true;
 		}
 		
 		if (keys_pressed & KEY_RIGHT)
 		{
-			deskpetModel = deskpetModel + 1;
+			menuRight();
 			
 			updateMenu = true;
 		}
@@ -94,6 +110,40 @@ int main()
 			updateMenu = false;
 		}
 	} while( 1 );
+}
+
+void menuUp()
+{
+	currentMenuIndex = currentMenuIndex - 1;
+}
+
+void menuDown()
+{
+	currentMenuIndex = currentMenuIndex + 1;
+}
+
+void menuLeft()
+{
+	switch (currentMenuEntry) {
+		case ENTRY_MODEL:
+			deskpetModel = deskpetModel - 1;
+			break;
+		case ENTRY_CHANNEL:
+			deskpetChannel = deskpetChannel - 1;
+			break;
+	}
+}
+
+void menuRight()
+{
+	switch (currentMenuEntry) {
+		case ENTRY_MODEL:
+			deskpetModel = deskpetModel + 1;
+			break;
+		case ENTRY_CHANNEL:
+			deskpetChannel = deskpetChannel + 1;
+			break;
+	}
 }
 
 void buildMenu()
@@ -108,7 +158,15 @@ void buildMenu()
 	
 	int currentRow = 3;
 	
-	makeMenuEntry(currentRow, "Model:", getDeviceTypeText(deskpetModel), true);
+	if (currentMenuIndex == (currentRow - 3))
+	{
+		currentMenuEntry = ENTRY_MODEL;
+		makeMenuEntry(currentRow, "Model:", getDeviceTypeText(deskpetModel), true);
+	}
+	else
+	{
+		makeMenuEntry(currentRow, "Model:", getDeviceTypeText(deskpetModel), false);
+	}
 	
 	if (isColorAvailable(deskpetModel))
 	{
@@ -116,17 +174,23 @@ void buildMenu()
 		
 		getColorsForModel(deskpetModel);
 		
-		makeMenuEntry(currentRow, "Color", getColorText(availableColors[deskpetColor]), false);
+		if (currentMenuIndex == (currentRow - 3))
+		{
+			currentMenuEntry = ENTRY_COLOR;
+			makeMenuEntry(currentRow, "Color", getColorText(availableColors[deskpetColor]), true);
+		}
+		else
+		{
+			makeMenuEntry(currentRow, "Color", getColorText(availableColors[deskpetColor]), false);
+		}
 	}
 	else
 	{
-		availableColors[0] = 0;
-		availableColors[1] = 0;
-		availableColors[2] = 0;
-		availableColors[3] = 0;
-		availableColors[4] = 0;
-		availableColors[5] = 0;
-		availableColors[6] = 0;
+		for (int i = 0; i++; i > 7)
+		{
+			availableColors[i] = 0;
+		}
+		
 		deskpetColor = 0;
 	}
 	
@@ -134,19 +198,39 @@ void buildMenu()
 	{
 		currentRow = currentRow + 1;
 		
-		deskpetChannel = 1;
+		if (deskpetChannel == 0)
+			deskpetChannel = 1;
 		
-		switch(deskpetChannel)
+		if (currentMenuIndex == (currentRow - 3))
 		{
-			case 1:
-				makeMenuEntry(currentRow, "Channel:", "A", false);
-				break;
-			case 2:
-				makeMenuEntry(currentRow, "Channel:", "B", false);
-				break;
-			case 3:
-				makeMenuEntry(currentRow, "Channel:", "C", false);
-				break;
+			currentMenuEntry = ENTRY_CHANNEL;
+			switch(deskpetChannel)
+			{
+				case 1:
+					makeMenuEntry(currentRow, "Channel:", "A", true);
+					break;
+				case 2:
+					makeMenuEntry(currentRow, "Channel:", "B", true);
+					break;
+				case 3:
+					makeMenuEntry(currentRow, "Channel:", "C", true);
+					break;
+			}
+		}
+		else
+		{
+			switch(deskpetChannel)
+			{
+				case 1:
+					makeMenuEntry(currentRow, "Channel:", "A", false);
+					break;
+				case 2:
+					makeMenuEntry(currentRow, "Channel:", "B", false);
+					break;
+				case 3:
+					makeMenuEntry(currentRow, "Channel:", "C", false);
+					break;
+			}
 		}
 	}
 	else
