@@ -10,22 +10,23 @@
 #include "soundbank_bin.h"
 
 #include "dpVariants.h"
-
-char *getDeviceTypeText(int dpModel);
+;
 void buildMenu();
 void makeMenuEntry(int row, char* caption, char* content, bool enabled);
-bool isColorAvailable(int dpModel);
+bool isColorAvailable();
 char *getColorText();
-bool isChannelAvailable(int dpModel);
+bool isChannelAvailable();
 void menuUp();
 void menuDown();
 void menuLeft();
 void menuRight();
+bool isAlternativeControlVariantAvailable();
+char *getControlTypeText();
+char *getModelText();
 
 int deskpetModel = 0;
 int deskpetColor = 0;
 int deskpetChannel = 0;
-int deskpetTeamColor = 0;
 int controlVariant = 0;
 int flipSignals = 0;
 
@@ -40,7 +41,6 @@ enum MENU_ENTRIES
 	ENTRY_MODEL,
 	ENTRY_COLOR,
 	ENTRY_CHANNEL,
-	ENTRY_TEAMCOLOR,
 	ENTRY_CONTROLVARIANT,
 	ENTRY_FLIPSIGNAL
 };
@@ -125,6 +125,10 @@ void menuLeft()
 		case ENTRY_MODEL:
 			deskpetModel = deskpetModel - 1;
 			
+			controlVariant = 0;
+			deskpetChannel = 0;
+			deskpetColor = 0;
+			
 			if (deskpetModel < MODEL_DRIFTBOT)
 				deskpetModel = MODEL_DRIFTBOT;
 			break;
@@ -160,6 +164,18 @@ void menuLeft()
 			
 			if (deskpetChannel == 0)
 				deskpetChannel = 1;
+			break;
+		case ENTRY_CONTROLVARIANT:
+			controlVariant = controlVariant - 1;
+			
+			if (controlVariant < CONTROLTYPE_DEFAULT)
+				controlVariant = CONTROLTYPE_DEFAULT;
+			break;
+		case ENTRY_FLIPSIGNAL:
+			flipSignals = flipSignals - 1;
+			
+			if (controlVariant == -1)
+				controlVariant = 0;
 			break;
 	}
 }
@@ -206,6 +222,18 @@ void menuRight()
 			if (deskpetChannel == 4)
 				deskpetChannel = 3;
 			break;
+		case ENTRY_CONTROLVARIANT:
+			controlVariant = controlVariant + 1;
+			
+			if (controlVariant > CONTROLTYPE_ALTERNATIVE)
+				controlVariant = CONTROLTYPE_ALTERNATIVE;
+			break;
+		case ENTRY_FLIPSIGNAL:
+			flipSignals = flipSignals + 1;
+			
+			if (controlVariant == 2)
+				controlVariant = 0;
+			break;
 	}
 }
 
@@ -221,17 +249,20 @@ void buildMenu()
 	
 	int currentRow = 3;
 	
+	if (currentMenuIndex < 0)
+		currentMenuIndex = 0;
+	
 	if (currentMenuIndex == (currentRow - 3))
 	{
 		currentMenuEntry = ENTRY_MODEL;
-		makeMenuEntry(currentRow, "Model:", getDeviceTypeText(deskpetModel), true);
+		makeMenuEntry(currentRow, "Model:", getModelText(), true);
 	}
 	else
 	{
-		makeMenuEntry(currentRow, "Model:", getDeviceTypeText(deskpetModel), false);
+		makeMenuEntry(currentRow, "Model:", getModelText(), false);
 	}
 	
-	if (isColorAvailable(deskpetModel))
+	if (isColorAvailable())
 	{
 		currentRow = currentRow + 1;
 		
@@ -253,7 +284,7 @@ void buildMenu()
 		deskpetColor = 0;
 	}
 	
-	if (isChannelAvailable(deskpetModel))
+	if (isChannelAvailable())
 	{
 		currentRow = currentRow + 1;
 		
@@ -296,6 +327,60 @@ void buildMenu()
 	{
 		deskpetChannel = 0;
 	}
+	
+	if (isAlternativeControlVariantAvailable())
+	{
+		currentRow = currentRow + 1;
+		
+		if (controlVariant == 0)
+			controlVariant = 1;
+		
+		if (currentMenuIndex == (currentRow - 3))
+		{
+			currentMenuEntry = ENTRY_CONTROLVARIANT;
+			makeMenuEntry(currentRow, "Controls:", getControlTypeText(), true);
+		}
+		else
+		{
+			makeMenuEntry(currentRow, "Controls:", getControlTypeText(), false);
+		}
+	}
+	else
+	{
+		controlVariant = 0;
+	}
+	
+	currentRow = currentRow + 1;
+	
+	if (currentMenuIndex == (currentRow - 3))
+	{
+		currentMenuEntry = ENTRY_FLIPSIGNAL;
+		switch(flipSignals)
+		{
+			case 0:
+				makeMenuEntry(currentRow, "Flip Signals:", "off", true);
+				break;
+			case 1:
+				makeMenuEntry(currentRow, "Flip Signals:", "on", true);
+		}
+	}
+	else
+	{
+		switch(flipSignals)
+		{
+			case 0:
+				makeMenuEntry(currentRow, "Flip Signals:", "off", false);
+				break;
+			case 1:
+				makeMenuEntry(currentRow, "Flip Signals:", "on", false);
+		}
+	}
+	
+	if (currentMenuIndex > (currentRow - 3))
+	{
+		currentMenuIndex = (currentRow - 3);
+		buildMenu();
+	}
 }
 
 void makeMenuEntry(int row, char* caption, char* content, bool active)
@@ -325,13 +410,10 @@ void makeMenuEntry(int row, char* caption, char* content, bool active)
 	iprintf(str);
 }
 
-bool isChannelAvailable(int dpModel)
+bool isAlternativeControlVariantAvailable()
 {
-	if (dpModel == MODEL_BATTLETANKV2 |
-		dpModel == MODEL_TANKBOTV2 |
-		dpModel == MODEL_BATTLETANKCHANNEL |
-		dpModel == MODEL_CARBOT |
-		dpModel == MODEL_DRIFTBOT)
+	if (deskpetModel != MODEL_SKITTERBOT &
+		deskpetModel != MODEL_TREKBOT)
 		{
 			return true;
 		}
@@ -339,13 +421,12 @@ bool isChannelAvailable(int dpModel)
 	return false;
 }
 
-bool isColorAvailable(int dpModel)
+bool isChannelAvailable()
 {
-	if (dpModel == MODEL_BATTLETANK |
-		dpModel == MODEL_SKITTERBOT |
-		dpModel == MODEL_TANKBOT |
-		dpModel == MODEL_TANKBOTFIRE |
-		dpModel == MODEL_TREKBOT)
+	if (deskpetModel == MODEL_BATTLETANKV2 |
+		deskpetModel == MODEL_TANKBOTV2 |
+		deskpetModel == MODEL_CARBOT |
+		deskpetModel == MODEL_DRIFTBOT)
 		{
 			return true;
 		}
@@ -353,18 +434,63 @@ bool isColorAvailable(int dpModel)
 	return false;
 }
 
-char *getDeviceTypeText(int dpModel)
+bool isColorAvailable()
 {
-	switch (dpModel)
+	if (deskpetModel == MODEL_BATTLETANK |
+		deskpetModel == MODEL_SKITTERBOT |
+		deskpetModel == MODEL_TANKBOT |
+		deskpetModel == MODEL_TANKBOTFIRE |
+		deskpetModel == MODEL_TREKBOT)
+		{
+			return true;
+		}
+		
+	return false;
+}
+
+
+char *getControlTypeText()
+{
+	switch (deskpetModel)
+	{
+		case MODEL_DRIFTBOT:
+		case MODEL_CARBOT:
+			switch (controlVariant)
+			{
+				case CONTROLTYPE_DEFAULT:
+					return "DPAD + AB-Buttons";
+				case CONTROLTYPE_ALTERNATIVE:
+					return "DPAD + LR-Buttons";
+			}
+			break;
+		case MODEL_BATTLETANK:
+		case MODEL_BATTLETANKV2:
+		case MODEL_TANKBOT:
+		case MODEL_TANKBOTFIRE:
+		case MODEL_TANKBOTV2:
+			switch (controlVariant)
+			{
+				case CONTROLTYPE_DEFAULT:
+					return "DPAD only";
+				case CONTROLTYPE_ALTERNATIVE:
+					return "DPAD + AB + LR-Buttons";
+			}
+			break;
+	}
+	
+	return "";
+}
+
+char *getModelText()
+{
+	switch (deskpetModel)
 	{
 		case MODEL_DRIFTBOT:
 			return "Driftbot";
 		case MODEL_BATTLETANK:
 			return "Battletank";
-		case MODEL_BATTLETANKCHANNEL:
-			return "Battletank (ABC Switch)";
 		case MODEL_BATTLETANKV2:
-			return "Battletank (Team Color)";
+			return "Battletank V2";
 		case MODEL_CARBOT:
 			return "Carbot";
 		case MODEL_TANKBOT:
@@ -382,7 +508,7 @@ char *getDeviceTypeText(int dpModel)
 	return "";
 };
 
-char *getColorText(int dpColor)
+char *getColorText()
 {	
 	switch (deskpetModel)
 	{
