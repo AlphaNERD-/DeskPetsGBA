@@ -174,8 +174,8 @@ void menuLeft()
 		case ENTRY_FLIPSIGNAL:
 			flipSignals = flipSignals - 1;
 			
-			if (controlVariant == -1)
-				controlVariant = 0;
+			if (flipSignals == -1)
+				flipSignals = 0;
 			break;
 	}
 }
@@ -231,8 +231,8 @@ void menuRight()
 		case ENTRY_FLIPSIGNAL:
 			flipSignals = flipSignals + 1;
 			
-			if (controlVariant == 2)
-				controlVariant = 0;
+			if (flipSignals == 2)
+				flipSignals = 1;
 			break;
 	}
 }
