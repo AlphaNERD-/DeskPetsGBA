@@ -15,8 +15,7 @@ char *getDeviceTypeText(int dpModel);
 void buildMenu();
 void makeMenuEntry(int row, char* caption, char* content, bool enabled);
 bool isColorAvailable(int dpModel);
-void getColorsForModel(int dpModel);
-char *getColorText(int dpModel);
+char *getColorText();
 bool isChannelAvailable(int dpModel);
 void menuUp();
 void menuDown();
@@ -45,8 +44,6 @@ enum MENU_ENTRIES
 	ENTRY_CONTROLVARIANT,
 	ENTRY_FLIPSIGNAL
 };
-
-int availableColors[7];
 
 int main() 
 {
@@ -127,9 +124,42 @@ void menuLeft()
 	switch (currentMenuEntry) {
 		case ENTRY_MODEL:
 			deskpetModel = deskpetModel - 1;
+			
+			if (deskpetModel < MODEL_DRIFTBOT)
+				deskpetModel = MODEL_DRIFTBOT;
+			break;
+		case ENTRY_COLOR:
+			deskpetColor = deskpetColor - 1;
+		
+			switch (deskpetModel)
+			{
+				case MODEL_BATTLETANK:
+					if (deskpetColor < BATTLETANK_OLIVE)
+						deskpetColor = BATTLETANK_OLIVE;
+					break;
+				case MODEL_TANKBOT:
+					if (deskpetColor < TANKBOT_GREEN)
+						deskpetColor = TANKBOT_GREEN;
+					break;
+				case MODEL_TANKBOTFIRE:
+					if (deskpetColor < TANKBOTFIRE_GREEN)
+						deskpetColor = TANKBOTFIRE_GREEN;
+					break;
+				case MODEL_TREKBOT:
+					if (deskpetColor < TREKBOT_BLUE)
+						deskpetColor = TREKBOT_BLUE;
+					break;
+				case MODEL_SKITTERBOT:
+					if (deskpetColor < SKITTERBOT_BLUE)
+						deskpetColor = SKITTERBOT_BLUE;
+					break;
+			}
 			break;
 		case ENTRY_CHANNEL:
 			deskpetChannel = deskpetChannel - 1;
+			
+			if (deskpetChannel == 0)
+				deskpetChannel = 1;
 			break;
 	}
 }
@@ -139,9 +169,42 @@ void menuRight()
 	switch (currentMenuEntry) {
 		case ENTRY_MODEL:
 			deskpetModel = deskpetModel + 1;
+			
+			if (deskpetModel > MODEL_SKITTERBOT)
+				deskpetModel = MODEL_SKITTERBOT;
+			break;
+		case ENTRY_COLOR:
+			deskpetColor = deskpetColor + 1;
+		
+			switch (deskpetModel)
+			{
+				case MODEL_BATTLETANK:
+					if (deskpetColor > BATTLETANK_GREEN)
+						deskpetColor = BATTLETANK_GREEN;
+					break;
+				case MODEL_TANKBOT:
+					if (deskpetColor > TANKBOT_WHITE)
+						deskpetColor = TANKBOT_WHITE;
+					break;
+				case MODEL_TANKBOTFIRE:
+					if (deskpetColor > TANKBOTFIRE_RED)
+						deskpetColor = TANKBOTFIRE_RED;
+					break;
+				case MODEL_TREKBOT:
+					if (deskpetColor > TREKBOT_CLEAR)
+						deskpetColor = TREKBOT_CLEAR;
+					break;
+				case MODEL_SKITTERBOT:
+					if (deskpetColor > SKITTERBOT_YELLOW)
+						deskpetColor = SKITTERBOT_YELLOW;
+					break;
+			}
 			break;
 		case ENTRY_CHANNEL:
 			deskpetChannel = deskpetChannel + 1;
+			
+			if (deskpetChannel == 4)
+				deskpetChannel = 3;
 			break;
 	}
 }
@@ -172,25 +235,21 @@ void buildMenu()
 	{
 		currentRow = currentRow + 1;
 		
-		getColorsForModel(deskpetModel);
+		if (deskpetColor == 0)
+			deskpetColor = 1;
 		
 		if (currentMenuIndex == (currentRow - 3))
 		{
 			currentMenuEntry = ENTRY_COLOR;
-			makeMenuEntry(currentRow, "Color", getColorText(availableColors[deskpetColor]), true);
+			makeMenuEntry(currentRow, "Color", getColorText(deskpetColor), true);
 		}
 		else
 		{
-			makeMenuEntry(currentRow, "Color", getColorText(availableColors[deskpetColor]), false);
+			makeMenuEntry(currentRow, "Color", getColorText(deskpetColor), false);
 		}
 	}
 	else
-	{
-		for (int i = 0; i++; i > 7)
-		{
-			availableColors[i] = 0;
-		}
-		
+	{	
 		deskpetColor = 0;
 	}
 	
@@ -294,60 +353,6 @@ bool isColorAvailable(int dpModel)
 	return false;
 }
 
-void getColorsForModel(int dpModel)
-{
-	switch (dpModel)
-	{
-		case MODEL_BATTLETANK:
-			availableColors[0] = COLOR_OLIVE;
-			availableColors[1] = COLOR_GREEN;
-			availableColors[2] = ENTRY_WRAP;
-			availableColors[3] = ENTRY_WRAP;
-			availableColors[4] = ENTRY_WRAP;
-			availableColors[5] = ENTRY_WRAP;
-			availableColors[6] = ENTRY_WRAP;
-			break;
-		case MODEL_TANKBOT:
-			availableColors[0] = COLOR_BLUE;
-			availableColors[1] = COLOR_GREEN;
-			availableColors[2] = COLOR_GOLD;
-			availableColors[3] = COLOR_ORANGE;
-			availableColors[4] = COLOR_GREY;
-			availableColors[5] = COLOR_WHITE;
-			availableColors[6] = ENTRY_WRAP;
-			break;
-		case MODEL_TANKBOTFIRE:
-			availableColors[0] = COLOR_BLUE;
-			availableColors[1] = COLOR_GREEN;
-			availableColors[2] = COLOR_GREY;
-			availableColors[3] = COLOR_RED;
-			availableColors[4] = COLOR_WHITE;
-			availableColors[5] = ENTRY_WRAP;
-			availableColors[6] = ENTRY_WRAP;
-			break;
-		case MODEL_TREKBOT:
-			availableColors[0] = COLOR_YELLOW;
-			availableColors[1] = COLOR_BLUE;
-			availableColors[2] = COLOR_BLACK;
-			availableColors[3] = COLOR_RED;
-			availableColors[4] = COLOR_WHITE;
-			availableColors[5] = COLOR_GOLD;
-			availableColors[6] = COLOR_CLEAR;
-			break;
-		case MODEL_SKITTERBOT:
-			availableColors[0] = COLOR_YELLOW;
-			availableColors[1] = COLOR_GREEN;
-			availableColors[2] = COLOR_BLUE;
-			availableColors[3] = COLOR_RED;
-			availableColors[4] = COLOR_CLEAR;
-			availableColors[5] = ENTRY_WRAP;
-			availableColors[6] = ENTRY_WRAP;
-			break;
-			
-	}
-	
-}
-
 char *getDeviceTypeText(int dpModel)
 {
 	switch (dpModel)
@@ -378,31 +383,82 @@ char *getDeviceTypeText(int dpModel)
 };
 
 char *getColorText(int dpColor)
-{
-	switch (dpColor)
+{	
+	switch (deskpetModel)
 	{
-		case COLOR_OLIVE:
-			return "Olive";
-		case COLOR_GREEN:
-			return "Green";
-		case COLOR_BLUE:
-			return "Blue";
-		case COLOR_GOLD:
-			return "Gold";
-		case COLOR_ORANGE:
-			return "Orange";
-		case COLOR_GREY:
-			return "Grey";
-		case COLOR_WHITE:
-			return "White";
-		case COLOR_YELLOW:
-			return "Yellow";
-		case COLOR_BLACK:
-			return "Black";
-		case COLOR_RED:
-			return "Red";
-		case COLOR_CLEAR:
-			return "Clear";
+		case MODEL_BATTLETANK:
+			switch (deskpetColor)
+			{
+				case BATTLETANK_OLIVE:
+					return "Olive";
+				case BATTLETANK_GREEN:
+					return "Green";
+			}
+			break;
+		case MODEL_TANKBOT:
+			switch (deskpetColor)
+			{
+				case TANKBOT_GREEN:
+					return "Green";
+				case TANKBOT_BLUE:
+					return "Blue";
+				case TANKBOT_GOLD:
+					return "Gold";
+				case TANKBOT_ORANGE:
+					return "Orange";
+				case TANKBOT_GREY:
+					return "Grey";
+				case TANKBOT_WHITE:
+					return "White";
+			}
+			break;
+		case MODEL_TANKBOTFIRE:
+			switch (deskpetColor)
+			{
+				case TANKBOTFIRE_GREEN:
+					return "Green";
+				case TANKBOTFIRE_BLUE:
+					return "Blue";
+				case TANKBOTFIRE_GREY:
+					return "Grey";
+				case TANKBOTFIRE_WHITE:
+					return "White";
+				case TANKBOTFIRE_RED:
+					return "Red";
+			}
+			break;
+		case MODEL_TREKBOT:
+			switch (deskpetColor)
+			{
+				case TREKBOT_BLUE:
+					return "Blue";
+				case TREKBOT_GOLD:
+					return "Gold";
+				case TREKBOT_WHITE:
+					return "White";
+				case TREKBOT_BLACK:
+					return "Black";
+				case TREKBOT_RED:
+					return "Red";
+				case TREKBOT_CLEAR:
+					return "Clear";
+			}
+			break;
+		case MODEL_SKITTERBOT:
+			switch (deskpetColor)
+			{
+				case SKITTERBOT_BLUE:
+					return "Blue";
+				case SKITTERBOT_WHITE:
+					return "White";
+				case SKITTERBOT_RED:
+					return "Red";
+				case SKITTERBOT_CLEAR:
+					return "Clear";
+				case SKITTERBOT_YELLOW:
+					return "Yellow";
+			}
+			break;
 	}
 	
 	return "";
