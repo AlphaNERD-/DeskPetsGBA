@@ -1,15 +1,13 @@
 #include <gba.h>
-#include <maxmod.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include <string.h>
 
-#include "soundbank.h"
-#include "soundbank_bin.h"
-
 #include "dpVariants.h"
+
+#include "tankController.h"
 ;
 void buildMenu();
 void makeMenuEntry(int row, char* caption, char* content, bool enabled);
@@ -96,6 +94,13 @@ int main()
 		if (keys_pressed & KEY_RIGHT)
 		{
 			menuRight();
+			
+			updateMenu = true;
+		}
+		
+		if (keys_pressed & KEY_START)
+		{
+			runTankController();
 			
 			updateMenu = true;
 		}

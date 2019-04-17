@@ -7,16 +7,17 @@
 #include "soundbank.h"
 #include "soundbank_bin.h"
 
-int tankController() {
+bool leave = false;
 
+void runTankController() {
+	leave = false;
+	
 	irqInit();
 
 	// Maxmod requires the vblank interrupt to reset sound DMA.
 	// Link the VBlank interrupt to mmVBlank, and enable it. 
 	irqSet( IRQ_VBLANK, mmVBlank );
-	irqEnable(IRQ_VBLANK);
-
-	consoleDemoInit();
+	irqEnable( IRQ_VBLANK );
 
 	// ansi escape sequence to clear screen and home cursor
 	// /x1b[line;columnH
@@ -85,5 +86,15 @@ int tankController() {
 		if ( keys_released & KEY_B ) {
 			mmEffectCancel(st);
 		}
-	} while( 1 );
+		
+		if (keys_pressed & KEY_START) {
+			irqDisable (IRQ_VBLANK);
+			leave = true;
+		}
+	} while( leave == false );
+}
+
+void prepareAudioFiles()
+{
+	
 }
