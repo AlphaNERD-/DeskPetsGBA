@@ -22,11 +22,11 @@ bool isAlternativeControlVariantAvailable();
 char *getControlTypeText();
 char *getModelText();
 
-int deskpetModel = 0;
-int deskpetColor = 0;
-int deskpetChannel = 0;
-int controlVariant = 0;
-int flipSignals = 0;
+static int deskpetModel = 0;
+static int deskpetColor = 0;
+static int deskpetChannel = 0;
+static int controlVariant = 0;
+static int flipSignals = 0;
 
 const int consoleLength = 30;
  
@@ -100,7 +100,7 @@ int main()
 		
 		if (keys_pressed & KEY_START)
 		{
-			runTankController();
+			runTankController(deskpetModel, deskpetColor, deskpetChannel, controlVariant, flipSignals);
 			
 			updateMenu = true;
 		}
