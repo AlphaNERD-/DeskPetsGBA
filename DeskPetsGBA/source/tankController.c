@@ -75,49 +75,75 @@ void runTankController(int model, int color, int channel, int variant, int signa
 	iprintf("\x1b[4;0HPress B to go backward");
 	
 	// sound effect handle (for cancelling it later)
-	mm_sfxhand lfrf;
-	mm_sfxhand lfrs;
-	mm_sfxhand lfrb;
-	mm_sfxhand lsrf;
-	mm_sfxhand lsrs;
-	mm_sfxhand lsrb;
-	mm_sfxhand lbrf;
-	mm_sfxhand lbrs;
-	mm_sfxhand lbrb;
-	mm_sfxhand fire;
 	
 	do {
 
-		int keys_pressed, keys_released;
+		int current_keys = 0;
+		int old_keys = 0;
 		
 		VBlankIntrWait();
 		mmFrame();
 	 
 		scanKeys();
 
-		keys_pressed = keysDown();
-		keys_released = keysUp();
-
-		// Play looping ambulance sound effect out of left speaker if A button is pressed
-		if ( keys_pressed & KEY_A ) {
-			lfrf = mmEffectEx(&LFRF);
-		}
-
-		// stop ambulance sound when A button is released
-		if ( keys_released & KEY_A ) {
-			mmEffectCancel(lfrf);
-		}
-
-		// Play explosion sound effect out of right speaker if B button is pressed
-		if ( keys_pressed & KEY_B ) {
-			lsrs = mmEffectEx(&LSRS);
+		old_keys = current_keys;
+		current_keys = keysDown();
+		
+		if (old_keys != current_keys)
+		{
+			if (controlVariant == CONTROLTYPE_DEFAULT)
+			{
+				if (current_keys & KEY_UP)
+				{
+					if (current_keys & KEY_LEFT)
+					{
+						mmEffectEx(&LSRF);
+					}
+					else if (current_keys & KEY_RIGHT)
+					{
+						mmEffectEx(&LFRS);
+					}
+					else
+					{
+						mmEffectEx(&LFRF);
+					}
+				}
+				else if (current_keys & KEY_DOWN)
+				{
+					if (current_keys & KEY_LEFT)
+					{
+						mmEffectEx(&LSRB);
+					}
+					else if (current_keys & KEY_RIGHT)
+					{
+						mmEffectEx(&LBRS);
+					}
+					else
+					{
+						mmEffectEx(&LBRB);
+					}
+				}
+				else if (current_keys & KEY_LEFT)
+				{
+					mmEffectEx(&LBRF);
+				}
+				else if (current_keys & KEY_RIGHT)
+				{
+					mmEffectEx(&LFRB);
+				}
+				else
+				{
+					mmEffectEx(&LSRS);
+				}
+			}
+			else
+			{
+				
+			}
 		}
 		
-		if ( keys_released & KEY_B ) {
-			mmEffectCancel(lsrs);
-		}
-		
-		if (keys_pressed & KEY_START) {
+		if (current_keys & KEY_START) {
+			mmEffectCancelAll();
 			irqDisable (IRQ_VBLANK);
 			leave = true;
 		}
