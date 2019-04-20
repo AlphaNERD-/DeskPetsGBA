@@ -20,7 +20,7 @@ mm_sound_effect getLBRSSound();
 mm_sound_effect getLBRBSound();
 mm_sound_effect getFireSound();
 
-bool leave = false;
+static bool leave = false;
 
 static int deskpetModel = 0;
 static int deskpetColor = 0;
@@ -76,18 +76,15 @@ void runTankController(int model, int color, int channel, int variant, int signa
 	
 	// sound effect handle (for cancelling it later)
 	
+	int current_keys = 0;
+	int old_keys = 0;
+	
 	do {
-
-		int current_keys = 0;
-		int old_keys = 0;
-		
 		VBlankIntrWait();
 		mmFrame();
-	 
-		scanKeys();
-
+		
 		old_keys = current_keys;
-		current_keys = keysDown();
+		current_keys = ~REG_KEYINPUT;
 		
 		if (old_keys != current_keys)
 		{
@@ -143,9 +140,12 @@ void runTankController(int model, int color, int channel, int variant, int signa
 		}
 		
 		if (current_keys & KEY_START) {
-			mmEffectCancelAll();
-			irqDisable (IRQ_VBLANK);
-			leave = true;
+			if (current_keys & KEY_SELECT)
+			{
+				mmEffectCancelAll();
+				irqDisable (IRQ_VBLANK);
+				leave = true;
+			}
 		}
 	} while( leave == false );
 }
