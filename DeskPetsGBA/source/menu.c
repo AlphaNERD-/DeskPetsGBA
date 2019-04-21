@@ -18,6 +18,7 @@ void menuUp();
 void menuDown();
 void menuLeft();
 void menuRight();
+void runController();
 bool isAlternativeControlVariantAvailable();
 char *getControlTypeText();
 char *getModelText();
@@ -100,7 +101,7 @@ int main()
 		
 		if (keys_pressed & KEY_START)
 		{
-			runTankController(deskpetModel, deskpetColor, deskpetChannel, controlVariant, flipSignals);
+			runController();
 			
 			updateMenu = true;
 		}
@@ -112,6 +113,20 @@ int main()
 			updateMenu = false;
 		}
 	} while( 1 );
+}
+
+void runController()
+{
+	switch (deskpetModel)
+	{
+		case MODEL_BATTLETANK:
+		case MODEL_BATTLETANKV2:
+		case MODEL_TANKBOTV2:
+		case MODEL_TANKBOTFIRE:
+		case MODEL_TANKBOT:
+			runTankController(deskpetModel, deskpetColor, deskpetChannel, controlVariant, flipSignals);
+			break;
+	}
 }
 
 void menuUp()
@@ -463,9 +478,9 @@ char *getControlTypeText()
 			switch (controlVariant)
 			{
 				case CONTROLTYPE_DEFAULT:
-					return "DPAD + AB-Buttons";
+					return "Arcade";
 				case CONTROLTYPE_ALTERNATIVE:
-					return "DPAD + LR-Buttons";
+					return "Simulator";
 			}
 			break;
 		case MODEL_BATTLETANK:
@@ -476,9 +491,9 @@ char *getControlTypeText()
 			switch (controlVariant)
 			{
 				case CONTROLTYPE_DEFAULT:
-					return "DPAD only";
+					return "Simple";
 				case CONTROLTYPE_ALTERNATIVE:
-					return "DPAD + AB + LR-Buttons";
+					return "Advanced";
 			}
 			break;
 	}

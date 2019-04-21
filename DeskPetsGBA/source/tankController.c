@@ -20,6 +20,9 @@ mm_sound_effect getLBRSSound();
 mm_sound_effect getLBRBSound();
 mm_sound_effect getFireSound();
 
+bool isFireAvailable();
+bool isBoostAvailable();
+
 static bool leave = false;
 
 static int deskpetModel = 0;
@@ -70,9 +73,44 @@ void runTankController(int model, int color, int channel, int variant, int signa
 
 	// ansi escape sequence to set print co-ordinates
 	// /x1b[line;columnH
-	iprintf("\x1b[0;8HDeskPets");
-	iprintf("\x1b[3;0HPress A to go forward");
-	iprintf("\x1b[4;0HPress B to go backward");
+	
+	iprintf("\x1b[0;5HDeskPets Controller");
+	
+	if (controlVariant == CONTROLTYPE_DEFAULT)
+	{
+		iprintf("\x1b[3;0HUse the DPAD to move around.");
+		
+		if (isFireAvailable())
+		{
+			iprintf("\x1b[4;0HPress A to fire.");
+		}
+		
+		if (isBoostAvailable())
+		{
+			iprintf("\x1b[5;0HPress B to boost.");
+			iprintf("\x1b[6;0HPress SELECT to switch between modes.");
+		}
+	}
+	else
+	{
+		iprintf("\x1b[3;0HPress Up to move the left track forward.");
+		iprintf("\x1b[4;0HPress Down to move the left track backwards.");
+		iprintf("\x1b[5;0HPress A to move the right track forward.");
+		iprintf("\x1b[6;0HPress B to move the left track backwards.");
+		
+		if (isFireAvailable())
+		{
+			iprintf("\x1b[7;0HPress R to fire.");
+		}
+		
+		if (isBoostAvailable())
+		{
+			iprintf("\x1b[8;0HPress L to boost.");
+			iprintf("\x1b[9;0HPress SELECT to switch between modes.");
+		}
+	}
+	
+	iprintf("\x1b[18;0HPress START and SELECT to return to the menu.");
 	
 	// sound effect handle (for cancelling it later)
 	
@@ -90,7 +128,11 @@ void runTankController(int model, int color, int channel, int variant, int signa
 		{
 			if (controlVariant == CONTROLTYPE_DEFAULT)
 			{
-				if (current_keys & KEY_UP)
+				if((current_keys & KEY_A) & isFireAvailable())
+				{
+					mmEffectEx(&Fire);
+				}
+				else if (current_keys & KEY_UP)
 				{
 					if (current_keys & KEY_LEFT)
 					{
@@ -135,7 +177,77 @@ void runTankController(int model, int color, int channel, int variant, int signa
 			}
 			else
 			{
+				int leftTrack = 0;
+				int rightTrack = 0;
 				
+				if((current_keys & KEY_R) & isFireAvailable())
+				{
+					mmEffectEx(&Fire);
+					continue;
+				}
+				
+				if (current_keys & KEY_DOWN)
+				{
+					leftTrack = -1;
+				}
+				
+				if (current_keys & KEY_UP)
+				{
+					leftTrack = 1;
+				}
+				
+				if (current_keys & KEY_B)
+				{
+					rightTrack = -1;
+				}
+				
+				if (current_keys & KEY_A)
+				{
+					rightTrack = 1;
+				}
+				
+				switch (leftTrack)
+				{
+					case -1:
+						switch (rightTrack)
+						{
+							case -1:
+								mmEffectEx(&LBRB);
+								break;
+							case 0:
+								mmEffectEx(&LBRS);
+								break;
+							case 1:
+								mmEffectEx(&LBRF);
+						}
+						break;
+					case 0:
+						switch (rightTrack)
+						{
+							case -1:
+								mmEffectEx(&LSRB);
+								break;
+							case 0:
+								mmEffectEx(&LSRS);
+								break;
+							case 1:
+								mmEffectEx(&LSRF);
+						}
+						break;
+					case 1:
+						switch (rightTrack)
+						{
+							case -1:
+								mmEffectEx(&LFRB);
+								break;
+							case 0:
+								mmEffectEx(&LFRS);
+								break;
+							case 1:
+								mmEffectEx(&LFRF);
+						}
+						break;
+				}
 			}
 		}
 		
@@ -393,4 +505,14 @@ mm_sound_effect getFireSound(){
 			break;
 		
 	}
+}
+
+bool isFireAvailable()
+{	
+	return deskpetModel != MODEL_TANKBOT;
+}
+
+bool isBoostAvailable()
+{
+	return deskpetModel == MODEL_BATTLETANK | deskpetModel == MODEL_BATTLETANKV2;
 }
