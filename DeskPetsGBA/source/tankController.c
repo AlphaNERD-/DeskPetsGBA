@@ -267,13 +267,94 @@ mm_sound_effect getLFRFSound()
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
-		case MODEL_TANKBOTFIRE:
 			switch (deskpetColor)
 			{
-				case TANKBOT_BLUE: //and TANKBOTFIRE_BLUE
+				case TANKBOT_BLUE:
 				{
 					mm_sound_effect temp = {
 						{ SFX_LFRFBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_ORANGE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Gold, Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFBLACKTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+			}
+			break;
+		case MODEL_TANKBOTFIRE:
+			switch (deskpetColor)
+			{
+				case TANKBOTFIRE_BLUE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_RED: //Red uses Orange audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFBLACKTANK } ,			// id
 						(int)(1.0f * (1<<10)),	// rate
 						0,		// handle
 						255,	// volume
@@ -292,13 +373,94 @@ mm_sound_effect getLFRSSound()
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
-		case MODEL_TANKBOTFIRE:
 			switch (deskpetColor)
 			{
-				case TANKBOT_BLUE: //and TANKBOTFIRE_BLUE
+				case TANKBOT_BLUE:
 				{
 					mm_sound_effect temp = {
 						{ SFX_LFRSBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRSGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_ORANGE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRSORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Gold, Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRSBLACKTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+			}
+			break;
+		case MODEL_TANKBOTFIRE:
+			switch (deskpetColor)
+			{
+				case TANKBOTFIRE_BLUE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRSBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRSGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_RED: //Red uses Orange audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRSORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRSBLACKTANK } ,			// id
 						(int)(1.0f * (1<<10)),	// rate
 						0,		// handle
 						255,	// volume
@@ -317,13 +479,94 @@ mm_sound_effect getLFRBSound()
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
+			switch (deskpetColor)
+			{
+				case TANKBOT_BLUE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_ORANGE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Gold, Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFBLACKTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+			}
+			break;
 		case MODEL_TANKBOTFIRE:
 			switch (deskpetColor)
 			{
-				case TANKBOT_BLUE: //and TANKBOTFIRE_BLUE
+				case TANKBOTFIRE_BLUE:
 				{
 					mm_sound_effect temp = {
-						{ SFX_LFRBBLUETANK } ,			// id
+						{ SFX_LFRFBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_RED: //Red uses Orange audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LFRFBLACKTANK } ,			// id
 						(int)(1.0f * (1<<10)),	// rate
 						0,		// handle
 						255,	// volume
@@ -341,13 +584,94 @@ mm_sound_effect getLSRFSound(){
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
-		case MODEL_TANKBOTFIRE:
 			switch (deskpetColor)
 			{
-				case TANKBOT_BLUE: //and TANKBOTFIRE_BLUE
+				case TANKBOT_BLUE:
 				{
 					mm_sound_effect temp = {
 						{ SFX_LSRFBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRFGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_ORANGE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRFORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Gold, Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRFBLACKTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+			}
+			break;
+		case MODEL_TANKBOTFIRE:
+			switch (deskpetColor)
+			{
+				case TANKBOTFIRE_BLUE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRFBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRFGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_RED: //Red uses Orange audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRFORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRFBLACKTANK } ,			// id
 						(int)(1.0f * (1<<10)),	// rate
 						0,		// handle
 						255,	// volume
@@ -365,13 +689,94 @@ mm_sound_effect getLSRSSound(){
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
-		case MODEL_TANKBOTFIRE:
 			switch (deskpetColor)
 			{
-				case TANKBOT_BLUE: //and TANKBOTFIRE_BLUE
+				case TANKBOT_BLUE:
 				{
 					mm_sound_effect temp = {
 						{ SFX_LSRSBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRSGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_ORANGE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRSORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Gold, Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRSBLACKTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+			}
+			break;
+		case MODEL_TANKBOTFIRE:
+			switch (deskpetColor)
+			{
+				case TANKBOTFIRE_BLUE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRSBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRSGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_RED: //Red uses Orange audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRSORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRSBLACKTANK } ,			// id
 						(int)(1.0f * (1<<10)),	// rate
 						0,		// handle
 						255,	// volume
@@ -390,13 +795,94 @@ mm_sound_effect getLSRBSound()
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
-		case MODEL_TANKBOTFIRE:
 			switch (deskpetColor)
 			{
-				case TANKBOT_BLUE: //and TANKBOTFIRE_BLUE
+				case TANKBOT_BLUE:
 				{
 					mm_sound_effect temp = {
 						{ SFX_LSRBBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRBGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_ORANGE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRBORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Gold, Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRBBLACKTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+			}
+			break;
+		case MODEL_TANKBOTFIRE:
+			switch (deskpetColor)
+			{
+				case TANKBOTFIRE_BLUE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRBBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRBGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_RED: //Red uses Orange audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRBORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LSRBBLACKTANK } ,			// id
 						(int)(1.0f * (1<<10)),	// rate
 						0,		// handle
 						255,	// volume
@@ -414,13 +900,94 @@ mm_sound_effect getLBRFSound(){
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
-		case MODEL_TANKBOTFIRE:
 			switch (deskpetColor)
 			{
-				case TANKBOT_BLUE: //and TANKBOTFIRE_BLUE
+				case TANKBOT_BLUE:
 				{
 					mm_sound_effect temp = {
 						{ SFX_LBRFBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRFGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_ORANGE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRFORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Gold, Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRFBLACKTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+			}
+			break;
+		case MODEL_TANKBOTFIRE:
+			switch (deskpetColor)
+			{
+				case TANKBOTFIRE_BLUE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRFBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRFGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_RED: //Red uses Orange audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRFORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRFBLACKTANK } ,			// id
 						(int)(1.0f * (1<<10)),	// rate
 						0,		// handle
 						255,	// volume
@@ -439,13 +1006,94 @@ mm_sound_effect getLBRSSound()
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
-		case MODEL_TANKBOTFIRE:
 			switch (deskpetColor)
 			{
-				case TANKBOT_BLUE: //and TANKBOTFIRE_BLUE
+				case TANKBOT_BLUE:
 				{
 					mm_sound_effect temp = {
 						{ SFX_LBRSBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRSGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_ORANGE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRSORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Gold, Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRSBLACKTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+			}
+			break;
+		case MODEL_TANKBOTFIRE:
+			switch (deskpetColor)
+			{
+				case TANKBOTFIRE_BLUE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRSBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRSGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_RED: //Red uses Orange audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRSORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRSBLACKTANK } ,			// id
 						(int)(1.0f * (1<<10)),	// rate
 						0,		// handle
 						255,	// volume
@@ -464,13 +1112,94 @@ mm_sound_effect getLBRBSound()
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
-		case MODEL_TANKBOTFIRE:
 			switch (deskpetColor)
 			{
-				case TANKBOT_BLUE: //and TANKBOTFIRE_BLUE
+				case TANKBOT_BLUE:
 				{
 					mm_sound_effect temp = {
 						{ SFX_LBRBBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRBGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOT_ORANGE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRBORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Gold, Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRBBLACKTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+			}
+			break;
+		case MODEL_TANKBOTFIRE:
+			switch (deskpetColor)
+			{
+				case TANKBOTFIRE_BLUE:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRBBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRBGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_RED: //Red uses Orange audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRBORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_LBRBBLACKTANK } ,			// id
 						(int)(1.0f * (1<<10)),	// rate
 						0,		// handle
 						255,	// volume
@@ -494,6 +1223,39 @@ mm_sound_effect getFireSound(){
 				{
 					mm_sound_effect temp = {
 						{ SFX_FIREBLUETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_GREEN:
+				{
+					mm_sound_effect temp = {
+						{ SFX_FIREGREENTANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				case TANKBOTFIRE_RED: //Red uses Orange audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_FIREORANGETANK } ,			// id
+						(int)(1.0f * (1<<10)),	// rate
+						0,		// handle
+						255,	// volume
+						127,	// panning
+					};
+					return temp;
+				}
+				default: //Grey and White use the same audio files
+				{
+					mm_sound_effect temp = {
+						{ SFX_FIREBLACKTANK } ,			// id
 						(int)(1.0f * (1<<10)),	// rate
 						0,		// handle
 						255,	// volume
