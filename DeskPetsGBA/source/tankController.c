@@ -24,6 +24,7 @@ bool isFireAvailable();
 bool isBoostAvailable();
 
 static bool leave = false;
+static bool doNotLeave = true;
 
 static int deskpetModel = 0;
 static int deskpetColor = 0;
@@ -33,6 +34,7 @@ static int flipSignals = 0;
 
 void runTankController(int model, int color, int channel, int variant, int signal) {
 	leave = false;
+	doNotLeave = true;
 	
 	deskpetModel = model;
 	deskpetColor = color;
@@ -78,67 +80,69 @@ void runTankController(int model, int color, int channel, int variant, int signa
 	
 	if (controlVariant == CONTROLTYPE_DEFAULT)
 	{
-		iprintf("\x1b[3;0HUse the DPAD to move around.");
+		iprintf("\x1b[3;0HDPAD = Move around");
 		
 		if (isFireAvailable())
 		{
-			iprintf("\x1b[4;0HPress A to fire.");
+			iprintf("\x1b[4;0HA = Fire");
 		}
 		
 		if (isBoostAvailable())
 		{
-			iprintf("\x1b[5;0HPress B to boost.");
-			iprintf("\x1b[6;0HPress SELECT to switch between modes.");
+			iprintf("\x1b[5;0HB = Activate boost");
+			iprintf("\x1b[6;0HSELECT = Switch mode");
 		}
 	}
 	else
 	{
-		iprintf("\x1b[3;0HPress Up to move the left track forward.");
-		iprintf("\x1b[5;0HPress Down to move the left track backwards.");
-		iprintf("\x1b[7;0HPress A to move the right track forward.");
-		iprintf("\x1b[9;0HPress B to move the right track backwards.");
+		iprintf("\x1b[3;0HUp = Move left track forward");
+		iprintf("\x1b[4;0HDown = Move left track backwards");
+		iprintf("\x1b[6;0HA = Move right track forward");
+		iprintf("\x1b[7;0HB = Move right track backwards");
 		
 		if (isFireAvailable())
 		{
-			iprintf("\x1b[11;0HPress R to fire.");
+			iprintf("\x1b[10;0HR = Fire");
 		}
 		
 		if (isBoostAvailable())
 		{
-			iprintf("\x1b[12;0HPress L to boost.");
-			iprintf("\x1b[13;0HPress SELECT to switch between modes.");
+			iprintf("\x1b[11;0HL = Activate boost");
+			iprintf("\x1b[12;0HSELECT = Switch mode");
 		}
 	}
 	
-	iprintf("\x1b[18;0HPress START and SELECT to return to the menu.");
+	iprintf("\x1b[18;0HSTART = Return to menu.");
 	
 	// sound effect handle (for cancelling it later)
 	
-	int current_keys = 0;
-	int old_keys = 0;
+	int keys_current = 0;
+	int keys_old = 0;
+	int keys_released = 0;
 	
 	do {
 		VBlankIntrWait();
 		mmFrame();
 		
-		old_keys = current_keys;
-		current_keys = ~REG_KEYINPUT;
+		keys_old = keys_current;
+		keys_current = ~REG_KEYINPUT;
+		keys_released = REG_KEYINPUT;
 		
-		if (old_keys != current_keys)
+		if (keys_old != keys_current)
 		{
 			if (controlVariant == CONTROLTYPE_DEFAULT)
 			{
-				if((current_keys & KEY_A) & isFireAvailable())
+				if((keys_current & KEY_A) & isFireAvailable())
 				{
 					mmEffectEx(&Fire);
 				}
-				else if (current_keys & KEY_UP)
+				else if (keys_current & KEY_UP)
 				{
-					if (current_keys & KEY_LEFT)
+					if (keys_current & KEY_LEFT)
 					{
 						mmEffectEx(&LSRF);
 					}
-					else if (current_keys & KEY_RIGHT)
+					else if (keys_current & KEY_RIGHT)
 					{
 						mmEffectEx(&LFRS);
 					}
@@ -147,13 +151,13 @@ void runTankController(int model, int color, int channel, int variant, int signa
 						mmEffectEx(&LFRF);
 					}
 				}
-				else if (current_keys & KEY_DOWN)
+				else if (keys_current & KEY_DOWN)
 				{
-					if (current_keys & KEY_LEFT)
+					if (keys_current & KEY_LEFT)
 					{
 						mmEffectEx(&LSRB);
 					}
-					else if (current_keys & KEY_RIGHT)
+					else if (keys_current & KEY_RIGHT)
 					{
 						mmEffectEx(&LBRS);
 					}
@@ -162,11 +166,11 @@ void runTankController(int model, int color, int channel, int variant, int signa
 						mmEffectEx(&LBRB);
 					}
 				}
-				else if (current_keys & KEY_LEFT)
+				else if (keys_current & KEY_LEFT)
 				{
 					mmEffectEx(&LBRF);
 				}
-				else if (current_keys & KEY_RIGHT)
+				else if (keys_current & KEY_RIGHT)
 				{
 					mmEffectEx(&LFRB);
 				}
@@ -180,28 +184,28 @@ void runTankController(int model, int color, int channel, int variant, int signa
 				int leftTrack = 0;
 				int rightTrack = 0;
 				
-				if((current_keys & KEY_R) & isFireAvailable())
+				if((keys_current & KEY_R) & isFireAvailable())
 				{
 					mmEffectEx(&Fire);
 					continue;
 				}
 				
-				if (current_keys & KEY_DOWN)
+				if (keys_current & KEY_DOWN)
 				{
 					leftTrack = -1;
 				}
 				
-				if (current_keys & KEY_UP)
+				if (keys_current & KEY_UP)
 				{
 					leftTrack = 1;
 				}
 				
-				if (current_keys & KEY_B)
+				if (keys_current & KEY_B)
 				{
 					rightTrack = -1;
 				}
 				
-				if (current_keys & KEY_A)
+				if (keys_current & KEY_A)
 				{
 					rightTrack = 1;
 				}
@@ -251,13 +255,18 @@ void runTankController(int model, int color, int channel, int variant, int signa
 			}
 		}
 		
-		if (current_keys & KEY_START) {
-			if (current_keys & KEY_SELECT)
+		if (keys_current & KEY_START) {
+			if (doNotLeave == false)
 			{
 				mmEffectCancelAll();
 				irqDisable (IRQ_VBLANK);
 				leave = true;
 			}
+		}
+		
+		if (keys_released & KEY_START)
+		{
+			doNotLeave = false;
 		}
 	} while( leave == false );
 }
