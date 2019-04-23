@@ -60,57 +60,62 @@ int main()
 
 	SetMode(MODE_0 | BG0_ON);
 	
-	int keys_pressed, keys_released;
 	bool updateMenu = false;
 	
 	buildMenu();
 	
+	int keys_current = 0;
+	int keys_old = 0;
+	int keys_released = 0;
+	
 	do {
-		scanKeys();
+		keys_old = keys_current;
+		keys_current = ~REG_KEYINPUT;
+		keys_released = REG_KEYINPUT;
 		
-		keys_pressed = keysDown();
-		keys_released = keysUp();
-		
-		if (keys_pressed & KEY_DOWN)
+		if (keys_old != keys_current)
 		{
-			menuDown();
+			if (keys_current & KEY_DOWN)
+			{
+				menuDown();
+				
+				updateMenu = true;
+			}
 			
-			updateMenu = true;
-		}
-		
-		if (keys_pressed & KEY_UP)
-		{
-			menuUp();
+			if (keys_current & KEY_UP)
+			{
+				menuUp();
+				
+				updateMenu = true;
+			}
 			
-			updateMenu = true;
-		}
-		
-		if (keys_pressed & KEY_LEFT)
-		{
-			menuLeft();
+			if (keys_current & KEY_LEFT)
+			{
+				menuLeft();
+				
+				updateMenu = true;
+			}
 			
-			updateMenu = true;
-		}
-		
-		if (keys_pressed & KEY_RIGHT)
-		{
-			menuRight();
+			if (keys_current & KEY_RIGHT)
+			{
+				menuRight();
+				
+				updateMenu = true;
+			}
 			
-			updateMenu = true;
-		}
-		
-		if (keys_pressed & KEY_START)
-		{
-			runController();
+			if (keys_current & KEY_START)
+			{
+				runController();
+				
+				updateMenu = true;
+			}
 			
-			updateMenu = true;
-		}
-		
-		if (updateMenu)
-		{
-			buildMenu();
-			
-			updateMenu = false;
+			if (updateMenu)
+			{
+				buildMenu();
+				
+				updateMenu = false;
+			}
 		}
 	} while( 1 );
 }

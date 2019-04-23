@@ -112,7 +112,7 @@ void runTankController(int model, int color, int channel, int variant, int signa
 		}
 	}
 	
-	iprintf("\x1b[18;0HSTART = Return to menu.");
+	iprintf("\x1b[19;4HSTART = Return to menu");
 	
 	// sound effect handle (for cancelling it later)
 	
