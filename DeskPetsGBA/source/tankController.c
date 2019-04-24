@@ -19,6 +19,8 @@ mm_sound_effect getLBRFSound();
 mm_sound_effect getLBRSSound();
 mm_sound_effect getLBRBSound();
 mm_sound_effect getFireSound();
+mm_sound_effect getBoosterSound();
+mm_sound_effect getModeSound();
 
 bool isFireAvailable();
 bool isBoostAvailable();
@@ -66,6 +68,8 @@ void runTankController(int model, int color, int channel, int variant, int signa
 	mm_sound_effect LBRS = getLBRSSound();
 	mm_sound_effect LBRB = getLBRBSound();
 	mm_sound_effect Fire = getFireSound();
+	mm_sound_effect Booster = getBoosterSound();
+	mm_sound_effect Mode = getModeSound();
 	
 	//prepareAudioFiles();
 
@@ -136,6 +140,14 @@ void runTankController(int model, int color, int channel, int variant, int signa
 				{
 					mmEffectEx(&Fire);
 				}
+				else if ((keys_current & KEY_B) & isBoostAvailable())
+				{
+					mmEffectEx(&Booster);
+				}
+				else if ((keys_current & KEY_SELECT) & isBoostAvailable())
+				{
+					mmEffectEx(&Mode);
+				}
 				else if (keys_current & KEY_UP)
 				{
 					if (keys_current & KEY_LEFT)
@@ -187,6 +199,16 @@ void runTankController(int model, int color, int channel, int variant, int signa
 				if((keys_current & KEY_R) & isFireAvailable())
 				{
 					mmEffectEx(&Fire);
+					continue;
+				}
+				else if ((keys_current & KEY_L) & isBoostAvailable())
+				{
+					mmEffectEx(&Booster);
+					continue;
+				}
+				else if ((keys_current & KEY_SELECT) & isBoostAvailable())
+				{
+					mmEffectEx(&Mode);
 					continue;
 				}
 				
@@ -479,7 +501,64 @@ mm_sound_effect getLFRFSound()
 				}
 			}
 			break;
-		
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRFOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRFGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRFOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRFGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
 	}
 }
 
@@ -691,7 +770,64 @@ mm_sound_effect getLFRSSound()
 				}
 			}
 			break;
-		
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRSOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRSGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRSOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRSGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
 	}
 }
 
@@ -903,6 +1039,64 @@ mm_sound_effect getLFRBSound()
 				}
 			}
 			break;
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRBOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRBGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRBOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LFRBGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
 	}
 }
 
@@ -1060,7 +1254,64 @@ mm_sound_effect getLSRFSound(){
 				}
 			}
 			break;
-		
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRFOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRFGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRFOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRFGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
 	}
 }
 
@@ -1271,7 +1522,64 @@ mm_sound_effect getLSRSSound(){
 				}
 			}
 			break;
-		
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRSOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRSGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRSOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRSGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
 	}
 }
 
@@ -1483,7 +1791,64 @@ mm_sound_effect getLSRBSound()
 				}
 			}
 			break;
-		
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRBOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRBGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRBOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LSRBGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
 	}
 }
 
@@ -1694,7 +2059,64 @@ mm_sound_effect getLBRFSound(){
 				}
 			}
 			break;
-		
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRFOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRFGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRFOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRFGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
 	}
 }
 
@@ -1906,7 +2328,64 @@ mm_sound_effect getLBRSSound()
 				}
 			}
 			break;
-		
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRSOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRSGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRSOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRSGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
 	}
 }
 
@@ -2118,7 +2597,64 @@ mm_sound_effect getLBRBSound()
 				}
 			}
 			break;
-		
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRBOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRBGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRBOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_LBRBGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
 	}
 }
 
@@ -2227,7 +2763,194 @@ mm_sound_effect getFireSound(){
 				}
 			}
 			break;
-		
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_FIREOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_FIREGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_FIREOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_FIREGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
+	}
+}
+
+mm_sound_effect getBoosterSound()
+{
+	switch(deskpetModel)
+	{
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_BOOSTEROLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_BOOSTERGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_BOOSTEROLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_BOOSTERGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
+	}
+}
+
+mm_sound_effect getModeSound()
+{
+	switch(deskpetModel)
+	{
+		case MODEL_BATTLETANK:
+			if (flipSignals == 0)
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_MODEOLIVEBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_MODEGREENBATTLE } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			else
+			{
+				switch (deskpetColor)
+				{
+					case BATTLETANK_OLIVE:
+					{
+						mm_sound_effect temp = {
+							{ SFX_MODEOLIVEBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case BATTLETANK_GREEN:
+					{
+						mm_sound_effect temp = {
+							{ SFX_MODEGREENBATTLEFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+				}
+			}
+			break;
 	}
 }
 

@@ -66,12 +66,10 @@ int main()
 	
 	int keys_current = 0;
 	int keys_old = 0;
-	int keys_released = 0;
 	
 	do {
 		keys_old = keys_current;
 		keys_current = ~REG_KEYINPUT;
-		keys_released = REG_KEYINPUT;
 		
 		if (keys_old != keys_current)
 		{
@@ -109,13 +107,13 @@ int main()
 				
 				updateMenu = true;
 			}
+		}
+		
+		if (updateMenu)
+		{
+			buildMenu();
 			
-			if (updateMenu)
-			{
-				buildMenu();
-				
-				updateMenu = false;
-			}
+			updateMenu = false;
 		}
 	} while( 1 );
 }
@@ -297,11 +295,11 @@ void buildMenu()
 		if (currentMenuIndex == (currentRow - 3))
 		{
 			currentMenuEntry = ENTRY_COLOR;
-			makeMenuEntry(currentRow, "Color", getColorText(deskpetColor), true);
+			makeMenuEntry(currentRow, "Color:", getColorText(deskpetColor), true);
 		}
 		else
 		{
-			makeMenuEntry(currentRow, "Color", getColorText(deskpetColor), false);
+			makeMenuEntry(currentRow, "Color:", getColorText(deskpetColor), false);
 		}
 	}
 	else
@@ -383,10 +381,10 @@ void buildMenu()
 		switch(flipSignals)
 		{
 			case 0:
-				makeMenuEntry(currentRow, "Flip Signals:", "off", true);
+				makeMenuEntry(currentRow, "Command Type:", "Normal", true);
 				break;
 			case 1:
-				makeMenuEntry(currentRow, "Flip Signals:", "on", true);
+				makeMenuEntry(currentRow, "Command Type:", "Flipped", true);
 		}
 	}
 	else
@@ -394,10 +392,10 @@ void buildMenu()
 		switch(flipSignals)
 		{
 			case 0:
-				makeMenuEntry(currentRow, "Flip Signals:", "off", false);
+				makeMenuEntry(currentRow, "Command Type:", "Normal", false);
 				break;
 			case 1:
-				makeMenuEntry(currentRow, "Flip Signals:", "on", false);
+				makeMenuEntry(currentRow, "Command Type:", "Flipped", false);
 		}
 	}
 	
