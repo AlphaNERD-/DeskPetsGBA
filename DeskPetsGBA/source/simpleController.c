@@ -65,17 +65,6 @@ void runSimpleController(int model, int color, int channel, int variant, int sig
 	
 	iprintf("\x1b[3;0HDPAD = Move around");
 	
-	if (isFireAvailable())
-	{
-		iprintf("\x1b[4;0HA = Fire");
-	}
-	
-	if (isBoostAvailable())
-	{
-		iprintf("\x1b[5;0HB = Activate boost");
-		iprintf("\x1b[6;0HSELECT = Switch mode");
-	}
-	
 	iprintf("\x1b[19;4HSTART = Return to menu");
 	
 	// sound effect handle (for cancelling it later)
@@ -136,15 +125,16 @@ mm_sound_effect getForwardSound()
 {
 	switch (deskpetModel)
 	{
-		case MODEL_TANKBOT:
+		case MODEL_TREKBOT:
 			if (flipSignals == 0)
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOT_BLUE:
+					case TREKBOT_YELLOW:
+					case TREKBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFBLUETANK } ,			// id
+							{ SFX_FWDREDTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -152,10 +142,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					case TANKBOT_GREEN:
+					case TREKBOT_BLACK:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFGREENTANK } ,			// id
+							{ SFX_FWDBLACKTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -163,10 +153,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					case TANKBOT_ORANGE:
+					case TREKBOT_CLEAR:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFORANGETANK } ,			// id
+							{ SFX_FWDCLEARTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -174,10 +164,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					default: //Gold, Grey and White use the same audio files
+					default: //Blue, White and Gold use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFBLACKTANK } ,			// id
+							{ SFX_FWDBLUETREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -191,10 +181,11 @@ mm_sound_effect getForwardSound()
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOT_BLUE:
+					case TREKBOT_YELLOW:
+					case TREKBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFBLUETANKFLIP } ,			// id
+							{ SFX_FWDREDTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -202,10 +193,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					case TANKBOT_GREEN:
+					case TREKBOT_BLACK:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFGREENTANKFLIP } ,			// id
+							{ SFX_FWDBLACKTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -213,10 +204,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					case TANKBOT_ORANGE:
+					case TREKBOT_CLEAR:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFORANGETANKFLIP } ,			// id
+							{ SFX_FWDCLEARTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -224,10 +215,21 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					default: //Gold, Grey and White use the same audio files
+					case TREKBOT_WHITE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFGREYTANKFLIP } ,			// id
+							{ SFX_FWDWHITETREKFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					default: //Blue and Gold use the same audio files
+					{
+						mm_sound_effect temp = {
+							{ SFX_FWDBLUETREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -238,15 +240,15 @@ mm_sound_effect getForwardSound()
 				}
 			}
 			break;
-		case MODEL_TANKBOTFIRE:
+		case MODEL_SKITTERBOT:
 			if (flipSignals == 0)
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOTFIRE_BLUE:
+					case SKITTERBOT_BLUE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFBLUETANK } ,			// id
+							{ SFX_FWDBLUEBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -254,10 +256,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_GREEN:
+					case SKITTERBOT_GREEN:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFGREENTANK } ,			// id
+							{ SFX_FWDGREENBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -265,10 +267,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_RED: //Red uses Orange audio files
+					case SKITTERBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFORANGETANK } ,			// id
+							{ SFX_FWDREDBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -276,10 +278,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					default: //Grey and White use the same audio files
+					default: //Yellow and clear use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFBLACKTANK } ,			// id
+							{ SFX_FWDWHITEBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -293,10 +295,10 @@ mm_sound_effect getForwardSound()
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOTFIRE_BLUE:
+					case SKITTERBOT_BLUE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFBLUETANKFLIP } ,			// id
+							{ SFX_FWDBLUEBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -304,10 +306,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_GREEN:
+					case SKITTERBOT_GREEN:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFGREENTANKFLIP } ,			// id
+							{ SFX_FWDGREENBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -315,10 +317,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_RED: //Red uses Orange audio files
+					case SKITTERBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFORANGETANKFLIP } ,			// id
+							{ SFX_FWDREDBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -326,68 +328,10 @@ mm_sound_effect getForwardSound()
 						};
 						return temp;
 					}
-					default: //Grey and White use the same audio files
+					default: //Yellow and clear use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRFGREYTANKFLIP } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-				}
-			}
-			break;
-		case MODEL_BATTLETANK:
-			if (flipSignals == 0)
-			{
-				switch (deskpetColor)
-				{
-					case BATTLETANK_OLIVE:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRFOLIVEBATTLE } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					case BATTLETANK_GREEN:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRFGREENBATTLE } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-				}
-			}
-			else
-			{
-				switch (deskpetColor)
-				{
-					case BATTLETANK_OLIVE:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRFOLIVEBATTLEFLIP } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					case BATTLETANK_GREEN:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRFGREENBATTLEFLIP } ,			// id
+							{ SFX_FWDWHITEBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -405,15 +349,16 @@ mm_sound_effect getBackwardsSound()
 {
 	switch (deskpetModel)
 	{
-		case MODEL_TANKBOT:
+		case MODEL_TREKBOT:
 			if (flipSignals == 0)
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOT_BLUE:
+					case TREKBOT_YELLOW:
+					case TREKBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSBLUETANK } ,			// id
+							{ SFX_BWDREDTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -421,10 +366,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					case TANKBOT_GREEN:
+					case TREKBOT_BLACK:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSGREENTANK } ,			// id
+							{ SFX_BWDBLACKTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -432,10 +377,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					case TANKBOT_ORANGE:
+					case TREKBOT_CLEAR:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSORANGETANK } ,			// id
+							{ SFX_BWDCLEARTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -443,10 +388,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					default: //Gold, Grey and White use the same audio files
+					default: //Blue, White and Gold use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSBLACKTANK } ,			// id
+							{ SFX_BWDBLUETREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -460,10 +405,11 @@ mm_sound_effect getBackwardsSound()
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOT_BLUE:
+					case TREKBOT_YELLOW:
+					case TREKBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSBLUETANKFLIP } ,			// id
+							{ SFX_BWDREDTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -471,10 +417,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					case TANKBOT_GREEN:
+					case TREKBOT_BLACK:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSGREENTANKFLIP } ,			// id
+							{ SFX_BWDBLACKTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -482,10 +428,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					case TANKBOT_ORANGE:
+					case TREKBOT_CLEAR:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSORANGETANKFLIP } ,			// id
+							{ SFX_BWDCLEARTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -493,10 +439,21 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					default: //Gold, Grey and White use the same audio files
+					case TREKBOT_WHITE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSGREYTANKFLIP } ,			// id
+							{ SFX_BWDWHITETREKFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					default: //Blue and Gold use the same audio files
+					{
+						mm_sound_effect temp = {
+							{ SFX_BWDBLUETREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -507,15 +464,15 @@ mm_sound_effect getBackwardsSound()
 				}
 			}
 			break;
-		case MODEL_TANKBOTFIRE:
+		case MODEL_SKITTERBOT:
 			if (flipSignals == 0)
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOTFIRE_BLUE:
+					case SKITTERBOT_BLUE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSBLUETANK } ,			// id
+							{ SFX_BWDBLUEBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -523,10 +480,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_GREEN:
+					case SKITTERBOT_GREEN:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSGREENTANK } ,			// id
+							{ SFX_BWDGREENBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -534,10 +491,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_RED: //Red uses Orange audio files
+					case SKITTERBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSORANGETANK } ,			// id
+							{ SFX_BWDREDBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -545,10 +502,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					default: //Grey and White use the same audio files
+					default: //Yellow and clear use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSBLACKTANK } ,			// id
+							{ SFX_BWDWHITEBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -562,10 +519,10 @@ mm_sound_effect getBackwardsSound()
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOTFIRE_BLUE:
+					case SKITTERBOT_BLUE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSBLUETANKFLIP } ,			// id
+							{ SFX_BWDBLUEBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -573,10 +530,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_GREEN:
+					case SKITTERBOT_GREEN:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSGREENTANKFLIP } ,			// id
+							{ SFX_BWDGREENBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -584,10 +541,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_RED: //Red uses Orange audio files
+					case SKITTERBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSORANGETANKFLIP } ,			// id
+							{ SFX_BWDREDBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -595,68 +552,10 @@ mm_sound_effect getBackwardsSound()
 						};
 						return temp;
 					}
-					default: //Grey and White use the same audio files
+					default: //Yellow and clear use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRSGREYTANKFLIP } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-				}
-			}
-			break;
-		case MODEL_BATTLETANK:
-			if (flipSignals == 0)
-			{
-				switch (deskpetColor)
-				{
-					case BATTLETANK_OLIVE:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRSOLIVEBATTLE } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					case BATTLETANK_GREEN:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRSGREENBATTLE } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-				}
-			}
-			else
-			{
-				switch (deskpetColor)
-				{
-					case BATTLETANK_OLIVE:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRSOLIVEBATTLEFLIP } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					case BATTLETANK_GREEN:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRSGREENBATTLEFLIP } ,			// id
+							{ SFX_BWDWHITEBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -674,15 +573,16 @@ mm_sound_effect getLeftSound()
 {
 	switch (deskpetModel)
 	{
-		case MODEL_TANKBOT:
+		case MODEL_TREKBOT:
 			if (flipSignals == 0)
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOT_BLUE:
+					case TREKBOT_YELLOW:
+					case TREKBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBBLUETANK } ,			// id
+							{ SFX_LEFTREDTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -690,10 +590,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					case TANKBOT_GREEN:
+					case TREKBOT_BLACK:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBGREENTANK } ,			// id
+							{ SFX_LEFTBLACKTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -701,10 +601,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					case TANKBOT_ORANGE:
+					case TREKBOT_CLEAR:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBORANGETANK } ,			// id
+							{ SFX_LEFTCLEARTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -712,10 +612,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					default: //Gold, Grey and White use the same audio files
+					default: //Blue, White and Gold use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBBLACKTANK } ,			// id
+							{ SFX_LEFTBLUETREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -729,10 +629,11 @@ mm_sound_effect getLeftSound()
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOT_BLUE:
+					case TREKBOT_YELLOW:
+					case TREKBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBBLUETANKFLIP } ,			// id
+							{ SFX_LEFTREDTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -740,10 +641,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					case TANKBOT_GREEN:
+					case TREKBOT_BLACK:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBGREENTANKFLIP } ,			// id
+							{ SFX_LEFTBLACKTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -751,10 +652,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					case TANKBOT_ORANGE:
+					case TREKBOT_CLEAR:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBORANGETANKFLIP } ,			// id
+							{ SFX_LEFTCLEARTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -762,10 +663,21 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					default: //Gold, Grey and White use the same audio files
+					case TREKBOT_WHITE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBGREYTANKFLIP } ,			// id
+							{ SFX_LEFTWHITETREKFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					default: //Blue and Gold use the same audio files
+					{
+						mm_sound_effect temp = {
+							{ SFX_LEFTBLUETREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -776,15 +688,15 @@ mm_sound_effect getLeftSound()
 				}
 			}
 			break;
-		case MODEL_TANKBOTFIRE:
+		case MODEL_SKITTERBOT:
 			if (flipSignals == 0)
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOTFIRE_BLUE:
+					case SKITTERBOT_BLUE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBBLUETANK } ,			// id
+							{ SFX_LEFTBLUEBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -792,10 +704,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_GREEN:
+					case SKITTERBOT_GREEN:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBGREENTANK } ,			// id
+							{ SFX_LEFTGREENBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -803,10 +715,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_RED: //Red uses Orange audio files
+					case SKITTERBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBORANGETANK } ,			// id
+							{ SFX_LEFTREDBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -814,10 +726,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					default: //Grey and White use the same audio files
+					default: //Yellow and clear use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBBLACKTANK } ,			// id
+							{ SFX_LEFTWHITEBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -831,10 +743,10 @@ mm_sound_effect getLeftSound()
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOTFIRE_BLUE:
+					case SKITTERBOT_BLUE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBBLUETANKFLIP } ,			// id
+							{ SFX_LEFTBLUEBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -842,10 +754,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_GREEN:
+					case SKITTERBOT_GREEN:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBGREENTANKFLIP } ,			// id
+							{ SFX_LEFTGREENBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -853,10 +765,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					case TANKBOTFIRE_RED: //Red uses Orange audio files
+					case SKITTERBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBORANGETANKFLIP } ,			// id
+							{ SFX_LEFTREDBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -864,68 +776,10 @@ mm_sound_effect getLeftSound()
 						};
 						return temp;
 					}
-					default: //Grey and White use the same audio files
+					default: //Yellow and clear use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LFRBGREYTANKFLIP } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-				}
-			}
-			break;
-		case MODEL_BATTLETANK:
-			if (flipSignals == 0)
-			{
-				switch (deskpetColor)
-				{
-					case BATTLETANK_OLIVE:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRBOLIVEBATTLE } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					case BATTLETANK_GREEN:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRBGREENBATTLE } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-				}
-			}
-			else
-			{
-				switch (deskpetColor)
-				{
-					case BATTLETANK_OLIVE:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRBOLIVEBATTLEFLIP } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					case BATTLETANK_GREEN:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LFRBGREENBATTLEFLIP } ,			// id
+							{ SFX_LEFTWHITEBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -939,18 +793,20 @@ mm_sound_effect getLeftSound()
 	}
 }
 
-mm_sound_effect getRightSound(){
+mm_sound_effect getRightSound()
+{
 	switch (deskpetModel)
 	{
-		case MODEL_TANKBOT:
+		case MODEL_TREKBOT:
 			if (flipSignals == 0)
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOT_BLUE:
+					case TREKBOT_YELLOW:
+					case TREKBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFBLUETANK } ,			// id
+							{ SFX_RIGHTREDTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -958,10 +814,10 @@ mm_sound_effect getRightSound(){
 						};
 						return temp;
 					}
-					case TANKBOT_GREEN:
+					case TREKBOT_BLACK:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFGREENTANK } ,			// id
+							{ SFX_RIGHTBLACKTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -969,10 +825,10 @@ mm_sound_effect getRightSound(){
 						};
 						return temp;
 					}
-					case TANKBOT_ORANGE:
+					case TREKBOT_CLEAR:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFORANGETANK } ,			// id
+							{ SFX_RIGHTCLEARTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -980,10 +836,10 @@ mm_sound_effect getRightSound(){
 						};
 						return temp;
 					}
-					default: //Gold, Grey and White use the same audio files
+					default: //Blue, White and Gold use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFBLACKTANK } ,			// id
+							{ SFX_RIGHTBLUETREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -997,10 +853,11 @@ mm_sound_effect getRightSound(){
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOT_BLUE:
+					case TREKBOT_YELLOW:
+					case TREKBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFBLUETANKFLIP } ,			// id
+							{ SFX_RIGHTREDTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1008,10 +865,10 @@ mm_sound_effect getRightSound(){
 						};
 						return temp;
 					}
-					case TANKBOT_GREEN:
+					case TREKBOT_BLACK:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFGREENTANKFLIP } ,			// id
+							{ SFX_RIGHTBLACKTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1019,10 +876,10 @@ mm_sound_effect getRightSound(){
 						};
 						return temp;
 					}
-					case TANKBOT_ORANGE:
+					case TREKBOT_CLEAR:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFORANGETANKFLIP } ,			// id
+							{ SFX_RIGHTCLEARTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1030,10 +887,21 @@ mm_sound_effect getRightSound(){
 						};
 						return temp;
 					}
-					default: //Gold, Grey and White use the same audio files
+					case TREKBOT_WHITE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFGREYTANKFLIP } ,			// id
+							{ SFX_RIGHTWHITETREKFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					default: //Blue and Gold use the same audio files
+					{
+						mm_sound_effect temp = {
+							{ SFX_RIGHTBLUETREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1044,64 +912,15 @@ mm_sound_effect getRightSound(){
 				}
 			}
 			break;
-		case MODEL_TANKBOTFIRE:
-			switch (deskpetColor)
-			{
-				case TANKBOTFIRE_BLUE:
-				{
-					mm_sound_effect temp = {
-						{ SFX_LSRFBLUETANK } ,			// id
-						(int)(1.0f * (1<<10)),	// rate
-						0,		// handle
-						255,	// volume
-						127,	// panning
-					};
-					return temp;
-				}
-				case TANKBOTFIRE_GREEN:
-				{
-					mm_sound_effect temp = {
-						{ SFX_LSRFGREENTANK } ,			// id
-						(int)(1.0f * (1<<10)),	// rate
-						0,		// handle
-						255,	// volume
-						127,	// panning
-					};
-					return temp;
-				}
-				case TANKBOTFIRE_RED: //Red uses Orange audio files
-				{
-					mm_sound_effect temp = {
-						{ SFX_LSRFORANGETANK } ,			// id
-						(int)(1.0f * (1<<10)),	// rate
-						0,		// handle
-						255,	// volume
-						127,	// panning
-					};
-					return temp;
-				}
-				default: //Grey and White use the same audio files
-				{
-					mm_sound_effect temp = {
-						{ SFX_LSRFBLACKTANK } ,			// id
-						(int)(1.0f * (1<<10)),	// rate
-						0,		// handle
-						255,	// volume
-						127,	// panning
-					};
-					return temp;
-				}
-			}
-			break;
-		case MODEL_BATTLETANK:
+		case MODEL_SKITTERBOT:
 			if (flipSignals == 0)
 			{
 				switch (deskpetColor)
 				{
-					case BATTLETANK_OLIVE:
+					case SKITTERBOT_BLUE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFOLIVEBATTLE } ,			// id
+							{ SFX_RIGHTBLUEBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1109,10 +928,32 @@ mm_sound_effect getRightSound(){
 						};
 						return temp;
 					}
-					case BATTLETANK_GREEN:
+					case SKITTERBOT_GREEN:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFGREENBATTLE } ,			// id
+							{ SFX_RIGHTGREENBUG } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case SKITTERBOT_RED:
+					{
+						mm_sound_effect temp = {
+							{ SFX_RIGHTREDBUG } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					default: //Yellow and clear use the same audio files
+					{
+						mm_sound_effect temp = {
+							{ SFX_RIGHTWHITEBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1126,10 +967,10 @@ mm_sound_effect getRightSound(){
 			{
 				switch (deskpetColor)
 				{
-					case BATTLETANK_OLIVE:
+					case SKITTERBOT_BLUE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFOLIVEBATTLEFLIP } ,			// id
+							{ SFX_RIGHTBLUEBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1137,10 +978,32 @@ mm_sound_effect getRightSound(){
 						};
 						return temp;
 					}
-					case BATTLETANK_GREEN:
+					case SKITTERBOT_GREEN:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRFGREENBATTLEFLIP } ,			// id
+							{ SFX_RIGHTGREENBUGFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case SKITTERBOT_RED:
+					{
+						mm_sound_effect temp = {
+							{ SFX_RIGHTREDBUGFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					default: //Yellow and clear use the same audio files
+					{
+						mm_sound_effect temp = {
+							{ SFX_RIGHTWHITEBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1154,18 +1017,20 @@ mm_sound_effect getRightSound(){
 	}
 }
 
-mm_sound_effect getStopSound(){
+mm_sound_effect getStopSound()
+{
 	switch (deskpetModel)
 	{
-		case MODEL_TANKBOT:
+		case MODEL_TREKBOT:
 			if (flipSignals == 0)
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOT_BLUE:
+					case TREKBOT_YELLOW:
+					case TREKBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSBLUETANK } ,			// id
+							{ SFX_STOPREDTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1173,10 +1038,10 @@ mm_sound_effect getStopSound(){
 						};
 						return temp;
 					}
-					case TANKBOT_GREEN:
+					case TREKBOT_BLACK:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSGREENTANK } ,			// id
+							{ SFX_STOPBLACKTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1184,10 +1049,10 @@ mm_sound_effect getStopSound(){
 						};
 						return temp;
 					}
-					case TANKBOT_ORANGE:
+					case TREKBOT_CLEAR:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSORANGETANK } ,			// id
+							{ SFX_STOPCLEARTREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1195,10 +1060,10 @@ mm_sound_effect getStopSound(){
 						};
 						return temp;
 					}
-					default: //Gold, Grey and White use the same audio files
+					default: //Blue, White and Gold use the same audio files
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSBLACKTANK } ,			// id
+							{ SFX_STOPBLUETREK } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1212,10 +1077,11 @@ mm_sound_effect getStopSound(){
 			{
 				switch (deskpetColor)
 				{
-					case TANKBOT_BLUE:
+					case TREKBOT_YELLOW:
+					case TREKBOT_RED:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSBLUETANKFLIP } ,			// id
+							{ SFX_STOPREDTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1223,10 +1089,10 @@ mm_sound_effect getStopSound(){
 						};
 						return temp;
 					}
-					case TANKBOT_GREEN:
+					case TREKBOT_BLACK:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSGREENTANKFLIP } ,			// id
+							{ SFX_STOPBLACKTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1234,10 +1100,10 @@ mm_sound_effect getStopSound(){
 						};
 						return temp;
 					}
-					case TANKBOT_ORANGE:
+					case TREKBOT_CLEAR:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSORANGETANKFLIP } ,			// id
+							{ SFX_STOPCLEARTREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1245,10 +1111,21 @@ mm_sound_effect getStopSound(){
 						};
 						return temp;
 					}
-					default: //Gold, Grey and White use the same audio files
+					case TREKBOT_WHITE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSGREYTANKFLIP } ,			// id
+							{ SFX_STOPWHITETREKFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					default: //Blue and Gold use the same audio files
+					{
+						mm_sound_effect temp = {
+							{ SFX_STOPBLUETREKFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1259,117 +1136,15 @@ mm_sound_effect getStopSound(){
 				}
 			}
 			break;
-		case MODEL_TANKBOTFIRE:
-			if(flipSignals)
-			{
-				switch (deskpetColor)
-				{
-					case TANKBOTFIRE_BLUE:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LSRSBLUETANK } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					case TANKBOTFIRE_GREEN:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LSRSGREENTANK } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					case TANKBOTFIRE_RED: //Red uses Orange audio files
-					{
-						mm_sound_effect temp = {
-							{ SFX_LSRSORANGETANK } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					default: //Grey and White use the same audio files
-					{
-						mm_sound_effect temp = {
-							{ SFX_LSRSBLACKTANK } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-				}
-			}
-			else
-			{
-				switch (deskpetColor)
-				{
-					case TANKBOTFIRE_BLUE:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LSRSBLUETANKFLIP } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					case TANKBOTFIRE_GREEN:
-					{
-						mm_sound_effect temp = {
-							{ SFX_LSRSGREENTANKFLIP } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					case TANKBOTFIRE_RED: //Red uses Orange audio files
-					{
-						mm_sound_effect temp = {
-							{ SFX_LSRSORANGETANKFLIP } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-					default: //Grey and White use the same audio files
-					{
-						mm_sound_effect temp = {
-							{ SFX_LSRSGREYTANKFLIP } ,			// id
-							(int)(1.0f * (1<<10)),	// rate
-							0,		// handle
-							255,	// volume
-							127,	// panning
-						};
-						return temp;
-					}
-				}
-			}
-			break;
-		case MODEL_BATTLETANK:
+		case MODEL_SKITTERBOT:
 			if (flipSignals == 0)
 			{
 				switch (deskpetColor)
 				{
-					case BATTLETANK_OLIVE:
+					case SKITTERBOT_BLUE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSOLIVEBATTLE } ,			// id
+							{ SFX_STOPBLUEBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1377,10 +1152,32 @@ mm_sound_effect getStopSound(){
 						};
 						return temp;
 					}
-					case BATTLETANK_GREEN:
+					case SKITTERBOT_GREEN:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSGREENBATTLE } ,			// id
+							{ SFX_STOPGREENBUG } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case SKITTERBOT_RED:
+					{
+						mm_sound_effect temp = {
+							{ SFX_STOPREDBUG } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					default: //Yellow and clear use the same audio files
+					{
+						mm_sound_effect temp = {
+							{ SFX_STOPWHITEBUG } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1394,10 +1191,10 @@ mm_sound_effect getStopSound(){
 			{
 				switch (deskpetColor)
 				{
-					case BATTLETANK_OLIVE:
+					case SKITTERBOT_BLUE:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSOLIVEBATTLEFLIP } ,			// id
+							{ SFX_STOPBLUEBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume
@@ -1405,10 +1202,32 @@ mm_sound_effect getStopSound(){
 						};
 						return temp;
 					}
-					case BATTLETANK_GREEN:
+					case SKITTERBOT_GREEN:
 					{
 						mm_sound_effect temp = {
-							{ SFX_LSRSGREENBATTLEFLIP } ,			// id
+							{ SFX_STOPGREENBUGFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					case SKITTERBOT_RED:
+					{
+						mm_sound_effect temp = {
+							{ SFX_STOPREDBUGFLIP } ,			// id
+							(int)(1.0f * (1<<10)),	// rate
+							0,		// handle
+							255,	// volume
+							127,	// panning
+						};
+						return temp;
+					}
+					default: //Yellow and clear use the same audio files
+					{
+						mm_sound_effect temp = {
+							{ SFX_STOPWHITEBUGFLIP } ,			// id
 							(int)(1.0f * (1<<10)),	// rate
 							0,		// handle
 							255,	// volume

@@ -8,6 +8,7 @@
 #include "dpVariants.h"
 
 #include "tankController.h"
+#include "simpleController.h"
 ;
 void buildMenu();
 void makeMenuEntry(int row, char* caption, char* content, bool enabled);
@@ -128,6 +129,10 @@ void runController()
 		case MODEL_TANKBOTFIRE:
 		case MODEL_TANKBOT:
 			runTankController(deskpetModel, deskpetColor, deskpetChannel, controlVariant, flipSignals);
+			break;
+		case MODEL_TREKBOT:
+		case MODEL_SKITTERBOT:
+			runSimpleController(deskpetModel, deskpetColor, deskpetChannel, controlVariant, flipSignals);
 			break;
 	}
 }
@@ -598,8 +603,8 @@ char *getColorText()
 			{
 				case SKITTERBOT_BLUE:
 					return "Blue";
-				case SKITTERBOT_WHITE:
-					return "White";
+				case SKITTERBOT_GREEN:
+					return "Green";
 				case SKITTERBOT_RED:
 					return "Red";
 				case SKITTERBOT_CLEAR:
