@@ -26,11 +26,15 @@ That's why i decided to create my own DeskPets control software for the Gameboy 
 ## Supported models
  - Tankbot
  - Battletank
+ - Carbot (needs some polish)
+ - Driftbot
+ - Skitterbot
+ - Trekbot
 
 ## TODO  
- - 2 control types:  
-   - Car controls to support Carbot and Driftbot
-   - DPAD-only Controls to Skitterbot and Trekbot  
+ - Add one-handed input scheme for Gameboy Micro users
+ - Add integrated manuals (how to set up a model)
+ - Test the following models (Battletank, Driftbot, Skitterbot)
  - Saving and loading the configuration  
  - Reduce CPU load in Main Menu  
- - Add nicer GUI later(?)  
+ - Add nicer GUI (i need help for this one from experienced homebrew devs)  
