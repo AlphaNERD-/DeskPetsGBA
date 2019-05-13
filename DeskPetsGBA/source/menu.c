@@ -200,6 +200,17 @@ void menuLeft()
 		case ENTRY_CONTROLVARIANT:
 			controlVariant = controlVariant - 1;
 			
+			if (deskpetModel != MODEL_TREKBOT & deskpetModel != MODEL_SKITTERBOT)
+			{
+				if (controlVariant < CONTROLTYPE_DEFAULT)
+					controlVariant = CONTROLTYPE_DEFAULT;
+			}
+			else
+			{
+				if (controlVariant <= CONTROLTYPE_ALTERNATIVE)
+					controlVariant = CONTROLTYPE_DEFAULT;
+			}
+			
 			if (controlVariant < CONTROLTYPE_DEFAULT)
 				controlVariant = CONTROLTYPE_DEFAULT;
 			break;
@@ -257,8 +268,16 @@ void menuRight()
 		case ENTRY_CONTROLVARIANT:
 			controlVariant = controlVariant + 1;
 			
-			if (controlVariant > CONTROLTYPE_ALTERNATIVE)
-				controlVariant = CONTROLTYPE_ALTERNATIVE;
+			if (deskpetModel != MODEL_TREKBOT & deskpetModel != MODEL_SKITTERBOT)
+			{
+				if (controlVariant > CONTROLTYPE_ONEHANDED)
+					controlVariant = CONTROLTYPE_ONEHANDED;
+			}
+			else
+			{
+				if (controlVariant >= CONTROLTYPE_ALTERNATIVE)
+					controlVariant = CONTROLTYPE_ONEHANDED;
+			}
 			break;
 		case ENTRY_FLIPSIGNAL:
 			flipSignals = flipSignals + 1;
@@ -360,26 +379,19 @@ void buildMenu()
 		deskpetChannel = 0;
 	}
 	
-	if (isAlternativeControlVariantAvailable())
+	currentRow = currentRow + 1;
+	
+	if (controlVariant == 0)
+		controlVariant = 1;
+	
+	if (currentMenuIndex == (currentRow - 3))
 	{
-		currentRow = currentRow + 1;
-		
-		if (controlVariant == 0)
-			controlVariant = 1;
-		
-		if (currentMenuIndex == (currentRow - 3))
-		{
-			currentMenuEntry = ENTRY_CONTROLVARIANT;
-			makeMenuEntry(currentRow, "Controls:", getControlTypeText(), true);
-		}
-		else
-		{
-			makeMenuEntry(currentRow, "Controls:", getControlTypeText(), false);
-		}
+		currentMenuEntry = ENTRY_CONTROLVARIANT;
+		makeMenuEntry(currentRow, "Controls:", getControlTypeText(), true);
 	}
 	else
 	{
-		controlVariant = 0;
+		makeMenuEntry(currentRow, "Controls:", getControlTypeText(), false);
 	}
 	
 	currentRow = currentRow + 1;
@@ -442,17 +454,6 @@ void makeMenuEntry(int row, char* caption, char* content, bool active)
 	iprintf(str);
 }
 
-bool isAlternativeControlVariantAvailable()
-{
-	if (deskpetModel != MODEL_SKITTERBOT &
-		deskpetModel != MODEL_TREKBOT)
-		{
-			return true;
-		}
-		
-	return false;
-}
-
 bool isChannelAvailable()
 {
 	if (deskpetModel == MODEL_BATTLETANKV2 |
@@ -493,6 +494,8 @@ char *getControlTypeText()
 					return "Arcade";
 				case CONTROLTYPE_ALTERNATIVE:
 					return "Simulator";
+				case CONTROLTYPE_ONEHANDED:
+					return "Wiimote-style";
 			}
 			break;
 		case MODEL_BATTLETANK:
@@ -506,6 +509,18 @@ char *getControlTypeText()
 					return "Simple";
 				case CONTROLTYPE_ALTERNATIVE:
 					return "Advanced";
+				case CONTROLTYPE_ONEHANDED:
+					return "Wiimote-style";
+			}
+			break;
+		case MODEL_TREKBOT:
+		case MODEL_SKITTERBOT:
+			switch (controlVariant)
+			{
+				case CONTROLTYPE_DEFAULT:
+					return "Simple";
+				case CONTROLTYPE_ONEHANDED:
+					return "Wiimote-style";
 			}
 			break;
 	}

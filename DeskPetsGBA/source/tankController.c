@@ -97,7 +97,7 @@ void runTankController(int model, int color, int channel, int variant, int signa
 			iprintf("\x1b[6;0HSELECT = Switch mode");
 		}
 	}
-	else
+	else if (controlVariant == CONTROLTYPE_ALTERNATIVE)
 	{
 		iprintf("\x1b[3;0HUp = Move left track forward");
 		iprintf("\x1b[4;0HDown = Move left track backwards");
@@ -113,6 +113,19 @@ void runTankController(int model, int color, int channel, int variant, int signa
 		{
 			iprintf("\x1b[11;0HL = Activate boost");
 			iprintf("\x1b[12;0HSELECT = Switch mode");
+		}
+	}
+	else
+	{
+		iprintf("\x1b[3;0HHold your Gameboy like a");
+		iprintf("\x1b[4;0HWiimote (DPAD facing up)");
+		iprintf("\x1b[6;0HThis mode is only recommended for Gameboy Micro users.");
+		
+		iprintf("\x1b[9;0HDPAD = Move around");
+		
+		if (isFireAvailable)
+		{
+			iprintf("\x1b[10;0HL = Fire");
 		}
 	}
 	
@@ -191,7 +204,7 @@ void runTankController(int model, int color, int channel, int variant, int signa
 					mmEffectEx(&LSRS);
 				}
 			}
-			else
+			else if (controlVariant == CONTROLTYPE_ALTERNATIVE)
 			{
 				int leftTrack = 0;
 				int rightTrack = 0;
@@ -273,6 +286,55 @@ void runTankController(int model, int color, int channel, int variant, int signa
 								mmEffectEx(&LFRF);
 						}
 						break;
+				}
+			}
+			else
+			{
+				if((keys_current & KEY_L) & isFireAvailable())
+				{
+					mmEffectEx(&Fire);
+				}
+				else if (keys_current & KEY_LEFT)
+				{
+					if (keys_current & KEY_DOWN)
+					{
+						mmEffectEx(&LSRF);
+					}
+					else if (keys_current & KEY_UP)
+					{
+						mmEffectEx(&LFRS);
+					}
+					else
+					{
+						mmEffectEx(&LFRF);
+					}
+				}
+				else if (keys_current & KEY_RIGHT)
+				{
+					if (keys_current & KEY_DOWN)
+					{
+						mmEffectEx(&LSRB);
+					}
+					else if (keys_current & KEY_UP)
+					{
+						mmEffectEx(&LBRS);
+					}
+					else
+					{
+						mmEffectEx(&LBRB);
+					}
+				}
+				else if (keys_current & KEY_DOWN)
+				{
+					mmEffectEx(&LBRF);
+				}
+				else if (keys_current & KEY_UP)
+				{
+					mmEffectEx(&LFRB);
+				}
+				else
+				{
+					mmEffectEx(&LSRS);
 				}
 			}
 		}

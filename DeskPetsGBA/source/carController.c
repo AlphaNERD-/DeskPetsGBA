@@ -95,7 +95,7 @@ void runCarController(int model, int color, int channel, int variant, int signal
 			iprintf("\x1b[8;0HR = Drift");
 		}
 	}
-	else
+	else if (controlVariant == CONTROLTYPE_ALTERNATIVE)
 	{
 		iprintf("\x1b[3;0HDPAD = Move left an right");
 		
@@ -112,6 +112,15 @@ void runCarController(int model, int color, int channel, int variant, int signal
 			iprintf("\x1b[8;0HB = Honk");
 			iprintf("\x1b[7;0HA = Drift");
 		}
+	}
+	else
+	{
+		iprintf("\x1b[3;0HHold your Gameboy like a");
+		iprintf("\x1b[4;0HWiimote (DPAD facing up)");
+		iprintf("\x1b[6;0HThis mode is only recommended for Gameboy Micro users.");
+		
+		iprintf("\x1b[9;0HDPAD = Move around");
+		iprintf("\x1b[10;0HL = Honk/Fire");
 	}
 	
 	iprintf("\x1b[19;4HSTART = Return to menu");
@@ -144,6 +153,9 @@ void runCarController(int model, int color, int channel, int variant, int signal
 					{
 						//For some reason DeskPets decided to name the file
 						//with the Honk command Fire*.wav
+						//Thats because the Carbot and Driftbot have 2 RC modes
+						//The first one being for normal driving, the other being
+						//for battles between cars.
 						mmEffectEx(&Fire);
 					}
 				}
@@ -203,7 +215,7 @@ void runCarController(int model, int color, int channel, int variant, int signal
 					mmEffectEx(&LSRS);
 				}
 			}
-			else
+			else if (controlVariant == CONTROLTYPE_ALTERNATIVE)
 			{
 				if (keys_current & KEY_A)
 				{
@@ -262,6 +274,55 @@ void runCarController(int model, int color, int channel, int variant, int signal
 					mmEffectEx(&LBRF);
 				}
 				else if (keys_current & KEY_RIGHT)
+				{
+					mmEffectEx(&LFRB);
+				}
+				else
+				{
+					mmEffectEx(&LSRS);
+				}
+			}
+			else
+			{
+				if(keys_current & KEY_L)
+				{
+					mmEffectEx(&Fire);
+				}
+				else if (keys_current & KEY_LEFT)
+				{
+					if (keys_current & KEY_DOWN)
+					{
+						mmEffectEx(&LSRF);
+					}
+					else if (keys_current & KEY_UP)
+					{
+						mmEffectEx(&LFRS);
+					}
+					else
+					{
+						mmEffectEx(&LFRF);
+					}
+				}
+				else if (keys_current & KEY_RIGHT)
+				{
+					if (keys_current & KEY_DOWN)
+					{
+						mmEffectEx(&LSRB);
+					}
+					else if (keys_current & KEY_UP)
+					{
+						mmEffectEx(&LBRS);
+					}
+					else
+					{
+						mmEffectEx(&LBRB);
+					}
+				}
+				else if (keys_current & KEY_DOWN)
+				{
+					mmEffectEx(&LBRF);
+				}
+				else if (keys_current & KEY_UP)
 				{
 					mmEffectEx(&LFRB);
 				}

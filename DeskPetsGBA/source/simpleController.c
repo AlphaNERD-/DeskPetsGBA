@@ -63,7 +63,18 @@ void runSimpleController(int model, int color, int channel, int variant, int sig
 	
 	iprintf("\x1b[0;5HDeskPets Controller");
 	
-	iprintf("\x1b[3;0HDPAD = Move around");
+	if (controlVariant == CONTROLTYPE_DEFAULT)
+	{
+		iprintf("\x1b[3;0HDPAD = Move around");
+	}
+	else
+	{
+		iprintf("\x1b[3;0HHold your Gameboy like a");
+		iprintf("\x1b[4;0HWiimote (DPAD facing up)");
+		iprintf("\x1b[6;0HThis mode is only recommended for Gameboy Micro users.");
+		
+		iprintf("\x1b[9;0HDPAD = Move around");
+	}
 	
 	iprintf("\x1b[19;4HSTART = Return to menu");
 	
@@ -83,25 +94,51 @@ void runSimpleController(int model, int color, int channel, int variant, int sig
 		
 		if (keys_old != keys_current)
 		{
-			if (keys_current & KEY_UP)
+			if (controlVariant == CONTROLTYPE_DEFAULT)
 			{
-				mmEffectEx(&Forward);
-			}
-			else if (keys_current & KEY_DOWN)
-			{
-				mmEffectEx(&Backwards);
-			}
-			else if (keys_current & KEY_LEFT)
-			{
-				mmEffectEx(&Left);
-			}
-			else if (keys_current & KEY_RIGHT)
-			{
-				mmEffectEx(&Right);
+				if (keys_current & KEY_UP)
+				{
+					mmEffectEx(&Forward);
+				}
+				else if (keys_current & KEY_DOWN)
+				{
+					mmEffectEx(&Backwards);
+				}
+				else if (keys_current & KEY_LEFT)
+				{
+					mmEffectEx(&Left);
+				}
+				else if (keys_current & KEY_RIGHT)
+				{
+					mmEffectEx(&Right);
+				}
+				else
+				{
+					mmEffectEx(&Stop);
+				}
 			}
 			else
 			{
-				mmEffectEx(&Stop);
+				if (keys_current & KEY_LEFT)
+				{
+					mmEffectEx(&Forward);
+				}
+				else if (keys_current & KEY_RIGHT)
+				{
+					mmEffectEx(&Backwards);
+				}
+				else if (keys_current & KEY_DOWN)
+				{
+					mmEffectEx(&Left);
+				}
+				else if (keys_current & KEY_UP)
+				{
+					mmEffectEx(&Right);
+				}
+				else
+				{
+					mmEffectEx(&Stop);
+				}
 			}
 		}
 		
