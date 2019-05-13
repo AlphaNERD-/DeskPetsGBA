@@ -87,7 +87,7 @@ void runCarController(int model, int color, int channel, int variant, int signal
 		if (deskpetModel == MODEL_CARBOT)
 		{
 			iprintf("\x1b[7;0HL = Activate boost");
-			iprintf("\x1b[8;0HR = Fire");
+			iprintf("\x1b[8;0HR = Honk/Fire");
 		}
 		else
 		{
@@ -104,13 +104,13 @@ void runCarController(int model, int color, int channel, int variant, int signal
 		
 		if (deskpetModel == MODEL_CARBOT)
 		{
-			iprintf("\x1b[8;0HA = Fire");
-			iprintf("\x1b[7;0HB = Activate boost");
+			iprintf("\x1b[8;0HB = Honk/Fire");
+			iprintf("\x1b[7;0HA = Activate boost");
 		}
 		else
 		{
-			iprintf("\x1b[8;0HA = Honk");
-			iprintf("\x1b[7;0HB = Drift");
+			iprintf("\x1b[8;0HB = Honk");
+			iprintf("\x1b[7;0HA = Drift");
 		}
 	}
 	
@@ -142,6 +142,8 @@ void runCarController(int model, int color, int channel, int variant, int signal
 					}
 					else
 					{
+						//For some reason DeskPets decided to name the file
+						//with the Honk command Fire*.wav
 						mmEffectEx(&Fire);
 					}
 				}
@@ -153,10 +155,12 @@ void runCarController(int model, int color, int channel, int variant, int signal
 					}
 					else
 					{
+						//And they called the Drift command file (possibly)
+						//Booster*.wav because this setup makes perfect sense
 						mmEffectEx(&Booster);
 					}
 				}
-				if (keys_current & KEY_A)
+				else if (keys_current & KEY_A)
 				{
 					if (keys_current & KEY_LEFT)
 					{
@@ -201,7 +205,7 @@ void runCarController(int model, int color, int channel, int variant, int signal
 			}
 			else
 			{
-				if (keys_current & KEY_B)
+				if (keys_current & KEY_A)
 				{
 					if (deskpetModel == MODEL_CARBOT)
 					{
@@ -212,7 +216,7 @@ void runCarController(int model, int color, int channel, int variant, int signal
 						mmEffectEx(&Fire);
 					}
 				}
-				else if (keys_current & KEY_A)
+				else if (keys_current & KEY_B)
 				{
 					if (deskpetModel == MODEL_CARBOT)
 					{
@@ -223,7 +227,7 @@ void runCarController(int model, int color, int channel, int variant, int signal
 						mmEffectEx(&Booster);
 					}
 				}
-				if (keys_current & KEY_R)
+				else if (keys_current & KEY_R)
 				{
 					if (keys_current & KEY_LEFT)
 					{
