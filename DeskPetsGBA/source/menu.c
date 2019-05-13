@@ -9,6 +9,7 @@
 
 #include "tankController.h"
 #include "simpleController.h"
+#include "carController.h"
 ;
 void buildMenu();
 void makeMenuEntry(int row, char* caption, char* content, bool enabled);
@@ -134,6 +135,9 @@ void runController()
 		case MODEL_SKITTERBOT:
 			runSimpleController(deskpetModel, deskpetColor, deskpetChannel, controlVariant, flipSignals);
 			break;
+		case MODEL_CARBOT:
+		case MODEL_DRIFTBOT:
+			runCarController(deskpetModel, deskpetColor, deskpetChannel, controlVariant, flipSignals);
 	}
 }
 

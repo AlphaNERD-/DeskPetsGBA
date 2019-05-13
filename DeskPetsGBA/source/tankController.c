@@ -9,18 +9,18 @@
 
 #include "dpVariants.h"
 ;
-mm_sound_effect getLFRFSound();
-mm_sound_effect getLFRSSound();
-mm_sound_effect getLFRBSound();
-mm_sound_effect getLSRFSound();
-mm_sound_effect getLSRSSound();
-mm_sound_effect getLSRBSound();
-mm_sound_effect getLBRFSound();
-mm_sound_effect getLBRSSound();
-mm_sound_effect getLBRBSound();
-mm_sound_effect getFireSound();
-mm_sound_effect getBoosterSound();
-mm_sound_effect getModeSound();
+static mm_sound_effect getLFRFSound();
+static mm_sound_effect getLFRSSound();
+static mm_sound_effect getLFRBSound();
+static mm_sound_effect getLSRFSound();
+static mm_sound_effect getLSRSSound();
+static mm_sound_effect getLSRBSound();
+static mm_sound_effect getLBRFSound();
+static mm_sound_effect getLBRSSound();
+static mm_sound_effect getLBRBSound();
+static mm_sound_effect getFireSound();
+static mm_sound_effect getBoosterSound();
+static mm_sound_effect getModeSound();
 
 bool isFireAvailable();
 bool isBoostAvailable();
@@ -293,7 +293,7 @@ void runTankController(int model, int color, int channel, int variant, int signa
 	} while( leave == false );
 }
 
-mm_sound_effect getLFRFSound()
+static mm_sound_effect getLFRFSound()
 {
 	switch (deskpetModel)
 	{
@@ -562,7 +562,7 @@ mm_sound_effect getLFRFSound()
 	}
 }
 
-mm_sound_effect getLFRSSound()
+static mm_sound_effect getLFRSSound()
 {
 	switch (deskpetModel)
 	{
@@ -831,7 +831,7 @@ mm_sound_effect getLFRSSound()
 	}
 }
 
-mm_sound_effect getLFRBSound()
+static mm_sound_effect getLFRBSound()
 {
 	switch (deskpetModel)
 	{
@@ -1100,7 +1100,8 @@ mm_sound_effect getLFRBSound()
 	}
 }
 
-mm_sound_effect getLSRFSound(){
+static mm_sound_effect getLSRFSound()
+{
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
@@ -1315,7 +1316,8 @@ mm_sound_effect getLSRFSound(){
 	}
 }
 
-mm_sound_effect getLSRSSound(){
+static mm_sound_effect getLSRSSound()
+{
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
@@ -1583,7 +1585,7 @@ mm_sound_effect getLSRSSound(){
 	}
 }
 
-mm_sound_effect getLSRBSound()
+static mm_sound_effect getLSRBSound()
 {
 	switch (deskpetModel)
 	{
@@ -1852,7 +1854,8 @@ mm_sound_effect getLSRBSound()
 	}
 }
 
-mm_sound_effect getLBRFSound(){
+static mm_sound_effect getLBRFSound()
+{
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOT:
@@ -2120,7 +2123,7 @@ mm_sound_effect getLBRFSound(){
 	}
 }
 
-mm_sound_effect getLBRSSound()
+static mm_sound_effect getLBRSSound()
 {
 	switch (deskpetModel)
 	{
@@ -2389,7 +2392,7 @@ mm_sound_effect getLBRSSound()
 	}
 }
 
-mm_sound_effect getLBRBSound()
+static mm_sound_effect getLBRBSound()
 {
 	switch (deskpetModel)
 	{
@@ -2658,7 +2661,8 @@ mm_sound_effect getLBRBSound()
 	}
 }
 
-mm_sound_effect getFireSound(){
+static mm_sound_effect getFireSound()
+{
 	switch (deskpetModel)
 	{
 		case MODEL_TANKBOTFIRE:
@@ -2824,7 +2828,7 @@ mm_sound_effect getFireSound(){
 	}
 }
 
-mm_sound_effect getBoosterSound()
+static mm_sound_effect getBoosterSound()
 {
 	switch(deskpetModel)
 	{
@@ -2889,7 +2893,7 @@ mm_sound_effect getBoosterSound()
 	}
 }
 
-mm_sound_effect getModeSound()
+static mm_sound_effect getModeSound()
 {
 	switch(deskpetModel)
 	{
